@@ -1,8 +1,9 @@
-
 * Add files
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp/")
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 #+end_src
+
 * Better defaults
 ** Enable number line
 #+begin_src emacs-lisp
@@ -21,11 +22,6 @@
   (defalias 'yes-or-no-p 'y-or-n-p)
   (global-subword-mode 1)
   (setq confirm-kill-emacs 'y-or-n-p)
-#+end_src
-
-** Frame opacity
-#+begin_src emacs-lisp
-  (add-to-list 'default-frame-alist '(alpha 85 80))
 #+end_src
 
 ** Buffer defaults
@@ -54,6 +50,34 @@
   (add-hook 'prog-mode 'display-fill-column-indicator-mode)
 #+end_src
 
+** For Desktop environment
+*** Hide title bar
+#+begin_src emacs-lisp
+  (setq default-frame-alist '((undecorated . t)))
+#+end_src
+
+*** Recenter emacs window
+#+begin_src emacs-lisp
+  (defun frame-center ()
+    "Center the current frame."
+    (interactive)
+    (let* ((dw (display-pixel-width))
+           (dh (display-pixel-height))
+           (f  (selected-frame))
+           (fw (frame-pixel-width f))
+           (fh (frame-pixel-height f))
+           (x  (- (/ dw 2) (/ fw 2)))
+           (y  (- (/ dh 2) (/ fh 2))))
+      (message (format "dw %d dh %d fw %d fh %d x %d y %d" dw dh fw fh x y))
+      (set-frame-position f x y)))
+  (run-with-idle-timer 0 nil #'frame-center)
+#+end_src
+
+** Frame opacity
+#+begin_src emacs-lisp
+  (add-to-list 'default-frame-alist '(alpha-background . 96))  ; Default transparency for all new frames
+#+end_src
+
 * Packages
 ** Convenience
 *** Sudo edit
@@ -62,6 +86,7 @@
     :ensure t
     :bind ("s-e" . sudo-edit))
 #+end_src
+
 *** Which-key
 #+begin_src emacs-lisp
   (use-package which-key
@@ -69,22 +94,35 @@
     :init
     (which-key-mode 1))
 #+end_src
+
 *** Dashboard
 #+begin_src emacs-lisp
   (use-package dashboard
     :ensure t
     :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
-    (setq dashboard-items '((recents  . 5))))
+    (setq dashboard-startup-banner "~/.emacs.d/dashboard/emacs.png")
+    (setq dashboard-banner-logo-title nil)
+    (setq dashboard-set-init-info nil)
+    (setq dashboard-center-content t)
+    (setq dashboard-footer-messages
+          (with-temp-buffer
+            (insert-file-contents "~/.emacs.d/dashboard/quotes")
+            (split-string (buffer-string) "\n" t)))
+    (setq dashboard-items '((recents  . 0))))
 #+end_src
+
 *** Open in external app
 #+begin_src emacs-lisp
   (use-package openwith
     :ensure t
     :config
     (openwith-mode t)
-    (setq openwith-associations '(("\\.pdf\\'" "zathura" (file)))))
+    (setq openwith-associations
+          '(("\\.pdf\\'" "zathura" (file))
+            ("\\.epub\\'" "zathura" (file))
+            ("\\.mkv\\'" "mpv" (file))
+            ("\\.doc\\'" "onlyoffice-desktopeditors" (file)))))
 #+end_src
 
 ** Tools
@@ -109,6 +147,7 @@
                         (push (list 'output-pdf "Zathura")
                               TeX-view-program-selection))))
 #+end_src
+
 *** Ssh
 #+begin_src emacs-lisp
   (use-package ssh
@@ -118,7 +157,9 @@
               (setq ssh-directory-tracking-mode t)
               (shell-dirtrack-mode t)
               (setq dirtrackp nil)))
+
 #+end_src
+
 ** Visual
 *** Rainbow
 #+begin_src emacs-lisp
@@ -138,9 +179,9 @@
 
 *** Theme
 #+begin_src emacs-lisp
-  (set-face-background hl-line-face "#313131")
+  (set-face-background hl-line-face "#94242")
 #+end_src
-#+end_src
+
 *** Mode line
 #+begin_src emacs-lisp
   (use-package doom-modeline
@@ -152,11 +193,15 @@
   (setq doom-modeline-modal nil)
   (setq line-number-mode nil)
   #+end_src
+
 * Programmig
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
-    :ensure t)
+    :ensure t
+    :bind
+    ("C-c g" . magit-dispatch)
+    ("C-c f" . magit-file-dispatch))
 #+end_src
 
 ** GNU style indenting
@@ -164,7 +209,8 @@
   (setq c-default-style "linux"
         c-basic-offset 4)
 #+end_src
-** Compilation (C)
+
+** Comipilation
 #+begin_src emacs-lisp
   (use-package recompile-on-save
     :ensure t)
@@ -176,37 +222,13 @@
     ("C-u" . smart-compile))
 #+end_src
 
-** Show compilation buffer
-#+begin_src emacs-lisp
-  (defun brian-compile-finish (buffer outstr)
-    (unless (string-match "finished" outstr)
-      (switch-to-buffer-other-window buffer))
-    t)
-
-  (setq compilation-finish-functions 'brian-compile-finish)
-
-  (defadvice compilation-start
-      (around inhibit-display
-              (command &optional mode name-function highlight-regexp))
-    (if (not (string-match "^\\(find\\|grep\\)" command))
-        (flet ((display-buffer)
-               (set-window-point)
-               (goto-char))
-          (fset 'display-buffer 'ignore)
-          (fset 'goto-char 'ignore)
-          (fset 'set-window-point 'ignore)
-          (save-window-excursion
-            ad-do-it))
-      ad-do-it))
-
-  (ad-activate 'compilation-start)
-#+end_src
 ** Language server protocol
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :ensure t
     :bind (:map lsp-mode-map
-		("C-c d" . lsp-describe-thing-at-point))
+                ("C-c d" . lsp-describe-thing-at-point)
+                ("C-c j" . lsp-find-definition))
     :config
     (lsp-enable-which-key-integration t))
 
@@ -225,7 +247,9 @@
     (setq company-idle-delay 0.1
           company-minimum-prefix-lenght 1))
 #+end_src
+
 ** Golang
+*** go-mode
 #+begin_src emacs-lisp
   (use-package go-mode
     :ensure t
@@ -240,33 +264,27 @@
     ;; add imports
     (setq gofmt-command "goimports"))
 #+end_src
-* Functions
-** Increment/Decrement number
-#+begin_src emacs-lisp
-  (defun increment-number-at-point ()
-    (interactive)
-    (skip-chars-backward "0-9")
-    (or (looking-at "[0-9]+")
-        (error "No number at point"))
-    (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
 
-  (defun decrement-number-at-point ()
-    (interactive)
-    (skip-chars-backward "0-9")
-    (or (looking-at "[0-9]+")
-        (error "No number at point"))
-    (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
+*** fmt on save
+#+begin_src emacs-lisp
+(add-hook 'go-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 #+end_src
+
 * Org mode
 ** Common settings
 #+begin_src emacs-lisp
-    (setq org-ellipsis " ")
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-confirm-babel-evaluate nil)
-    (setq org-export-with-smart-quotes t)
-    (setq org-src-window-setup 'current-window)
-    (add-hook 'org-mode-hook 'org-indent-mode)
+  (setq org-ellipsis " ")
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-export-with-smart-quotes t)
+  (setq org-src-window-setup 'current-window)
+
+  (setq org-hide-emphasis-markers t)
+
+  (add-hook 'org-mode-hook 'org-indent-mode)
 #+end_src
 
 ** Org-superstar
@@ -296,55 +314,18 @@
 
 *** Creating templater
 #+begin_src emacs-lisp
-  (defvar +org-capture-todo-file  "/home/ethan/Docs/self/agenda/todo.org")
-  (defvar +org-capture-interesting-file  "/home/ethan/Docs/self/agenda/intesenting.org")
-  ;; (defvar +org-capture-agenda-file  "/home/ethan/Docs/self/agenda/agenda.org")
-  ;; (defvar +org-capture-personal-file  "/home/ethan/Docs/self/agenda/personal.org")
-  ;; (defvar +org-capture-college-file  "/home/ethan/Docs/self/agenda/college.org")
-
+  (defvar +org-capture-todo-file  "/home/ethan/Documents/self/temp.org")
   (defun set-org-capture-templates ()
     (setq org-capture-templates
-          (doct `(("Personal todo" :keys "t"
-                   :icon ("checklist" :set "octicon" :color "green")
-                   :file +org-capture-todo-file
-                   :prepend t
-                   :headline "TODO's"
-                   :type entry
-                   :template ("* TODO %?"
-                              "%i %a"))
-                  ("Personal note" :keys "n"
-                   :icon ("sticky-note-o" :set "faicon" :color "green")
-                   :file +org-capture-todo-file
-                   :prepend t
-                   :headline "Notes"
-                   :type entry
-                   :template ("* %?"
-                              "%i %a"))
-
-                  ("Interesting" :keys "i"
-                   :icon ("eye" :set "faicon" :color "lcyan")
-                   :file +org-capture-todo-file
-                   :prepend t
-                   :headline "Interesting"
-                   :type entry
-                   :template ("* [ ] %{desc}%? :%{i-type}:"
-                              "%i %a")
-                   :children (("Webpage" :keys "w"
-                               :icon ("globe" :set "faicon" :color "green")
-                               :desc "%(org-cliplink-capture) "
-                               :i-type "read:web")
-                              ("Article" :keys "a"
-                               :icon ("file-text" :set "octicon" :color "yellow")
-                               :desc ""
-                               :i-type "read:reaserch")
-                              ("Information" :keys "i"
-                               :icon ("info-circle" :set "faicon" :color "blue")
-                               :desc ""
-                               :i-type "read:info")
-                              ("Idea" :keys "I"
-                               :icon ("bubble_chart" :set "material" :color "silver")
-                               :desc ""
-                               :i-type "idea")))
+          (doct `(
+                  ;; ("todo" :keys "t"
+                   ;; :icon ("checklist" :set "octicon" :color "green")
+                   ;; :file +org-capture-todo-file
+                   ;; :prepend t
+                   ;; :headline "TODO's"
+                   ;; :type entry
+                   ;; :template ("* TODO %?"
+                              ;; "%i %a"))
                   ("Tasks" :keys "k"
                    :icon ("inbox" :set "octicon" :color "yellow")
                    :file +org-capture-todo-file
@@ -369,39 +350,16 @@
                    :headline "Waiting"
                    :type entry
                    :template ("** WAITING %?"
-                              "%i %a"))
-
-                  ("College" :keys "c"
-                   :icon ("inbox" :set "octicon" :color "yellow")
-                   :file +org-capture-todo-file
-                   :prepend t
-                   :headline "Tasks"
-                   :type entry
-                   :template ("* TODO %? %^G%{extra}"
-                              "%i %a")
-                   :children (("General Task" :keys "k"
-                               :icon ("inbox" :set "octicon" :color "yellow")
-                               :extra "")
-                              ("Task with deadline" :keys "d"
-                               :icon ("timer" :set "material" :color "orange" :v-adjust -0.1)
-                               :extra "\nDEADLINE: %^{Deadline:}t")
-                              ("Scheduled Task" :keys "s"
-                               :icon ("calendar" :set "octicon" :color "orange")
-                               :extra "\nSCHEDULED: %^{Start time:}t")))))))
+                              "%i %a"))))))
   (set-org-capture-templates)
 #+end_src
 
 *** Org-super-agenda
-
 #+begin_src emacs-lisp
   (use-package org-super-agenda
     :ensure t
     :commands org-super-agenda-mode)
-#+end_src
-
-#+begin_src emacs-lisp
   (org-super-agenda-mode)
-
   (setq org-agenda-skip-scheduled-if-done t
         org-agenda-skip-deadline-if-done t
         org-agenda-include-deadlines t
@@ -425,10 +383,6 @@
                             (:name "Next to do"
                                    :todo "NEXT"
                                    :order 1)
-                            ;; (:name "Important"
-                            ;; :tag "Important"
-                            ;; :priority "A"
-                            ;; :order 6)
                             (:name "Calendar"
                                    :todo "TODO"
                                    :order 2)
@@ -442,42 +396,16 @@
                                    :deadline past
                                    :face error
                                    :order 7)
-                            ;; (:name "Assignments"
-                            ;; :tag "Assignment"
-                            ;; :order 10)
-                            ;; (:name "Issues"
-                            ;; :tag "Issue"
-                            ;; :order 12)
-                            (:name "Emacs"
-                                   :tag "Emacs"
-                                   :order 13)
-                            ;; (:name "Projects"
-                            ;; :tag "Project"
-                            ;; :order 14)
-                            ;; (:name "Research"
-                            ;; :tag "Research"
-                            ;; :order 15)
-                            (:name "To read"
-                                   :tag "Read"
-                                   :order 30)
                             (:name "Waiting"
                                    :todo "WAITING"
                                    :order 20)
-                            (:name "Trivial"
-                                   :priority<= "E"
-                                   :tag ("Trivial" "Unimportant")
-                                   :todo ("SOMEDAY" )
-                                   :order 90)
                             (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
 #+end_src
 
 *** Org todo keywords
-
 #+begin_src emacs-lisp
-  ;; Include the todo keywords
   (setq org-fast-tag-selection-include-todo t)
-
-  ;; == Custom State Keywords ==
+  ;; Custom State Keywords
   (setq org-use-fast-todo-selection t)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "PROJ(p)" "|" "DONE(d)")
@@ -499,6 +427,7 @@
           ("SOMEDAY" :foreground "cyan" :weight bold)
           ("CANCELLED" :foreground "forest green" :weight bold)))
 #+end_src
+
 ** Structure templates
 #+begin_src emacs-lisp
   (setq org-structure-template-alist
@@ -518,7 +447,7 @@
     (global-set-key (kbd "<escape>") 'xah-fly-command-mode-activate)
     (define-key key-translation-map (kbd "C-e") (kbd "C-g"))
   #+end_src
-#+end_src
+
 ** Org-mode
 #+begin_src emacs-lisp
     (global-set-key (kbd "C-c '") 'org-edit-src-code)
