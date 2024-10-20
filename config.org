@@ -1,6 +1,7 @@
 * Add files
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp/")
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 #+end_src
 
 * Better defaults
