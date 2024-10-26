@@ -1,0 +1,85 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("cources"
+ (filename . "~/Programming/cources/")
+ (front-context-string . "SoftwareDevelopm")
+ (rear-context-string . "0K Aug  3 15:27 ")
+ (position . 176)
+ (last-modified 26383 29230 689789 800000))
+("notes"
+ (filename . "~/Documents/self/notes.org")
+ (front-context-string . "* LINKS\n** Golan")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26382 19783 490067 147000))
+("h"
+ (filename . "~/")
+ (front-context-string . ".local\n  drwx---")
+ (rear-context-string . "96 Sep  5 16:41 ")
+ (position . 514)
+ (last-modified 26376 13523 340917 417000))
+("pnotes"
+ (filename . "~/Documents/self/notes/programmingnotes.org")
+ (front-context-string . "\n* The Go Progra")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26382 7400 100107 126000))
+("stick"
+ (filename . "/media/ethan/")
+ (front-context-string . ".\n  drwxr-xr-x  ")
+ (rear-context-string . "96 Sep 10 21:55 ")
+ (position . 64)
+ (last-modified 26336 34864 950667 221000))
+("books"
+ (filename . "~/Documents/books/programming/golang/")
+ (front-context-string . "William Kennedy ")
+ (rear-context-string . "92 Aug 19  2023 ")
+ (position . 284)
+ (last-modified 26326 58688 457683 590000))
+("me"
+ (filename . "~/Documents/self/me/me.org")
+ (front-context-string . "* What we hade s")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26383 23414 680735 820000))
+("~"
+ (filename . "~/")
+ (front-context-string . ".cache\n  drwx---")
+ (rear-context-string . "96 Oct  5 09:18 ")
+ (position . 159)
+ (last-modified 26376 13509 246154 32000))
+("bin"
+ (filename . "~/.local/bin/")
+ (front-context-string . ".\n  drwx------ 5")
+ (rear-context-string . "96 Aug  6 23:11 ")
+ (position . 129))
+("0"
+ (filename . "~/Downloads/")
+ (front-context-string . "Silberschatz A.,")
+ (rear-context-string . "74 Sep 14 18:37 ")
+ (position . 178)
+ (last-modified 26341 43203 711572 876000))
+("repo"
+ (filename . "~/Programming/repo/")
+ (front-context-string . ".\n  drwxr-xr-x 6")
+ (rear-context-string . "96 Mar  8 15:43 ")
+ (position . 127))
+("go"
+ (filename . "~/Programming/golang/main.go")
+ (front-context-string . "package main\n\nfu")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26339 4202 761759 749000))
+("conf"
+ (filename . "~/.config/")
+ (front-context-string . "X11\n  drwx------")
+ (rear-context-string . "96 Feb  3 10:48 ")
+ (position . 278))
+("init"
+ (filename . "~/.emacs.d/config.org")
+ (front-context-string . "* Reload\n#+BEGIN")
+ (rear-context-string)
+ (position . 1))
+)

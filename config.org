@@ -1,81 +1,46 @@
 * Add files
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp/")
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 #+end_src
 
 * Better defaults
-** Enable number line
 #+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-#+end_src
-
-** Simple settings
-#+begin_src emacs-lisp
+  ;;Defaults
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
   (setq inhibit-startup-message t)
   (setq make-backup-files nil)
-  (setq auto-save-default nil)
+  ;; (setq auto-save-default nil)
+  (setq auto-save-list-file-prefix nil)
   (setq scroll-conservatively 100)
   (defalias 'yes-or-no-p 'y-or-n-p)
   (global-subword-mode 1)
   (setq confirm-kill-emacs 'y-or-n-p)
-#+end_src
-
-** Buffer defaults
-#+begin_src emacs-lisp
-  (setq ibuffer-expert t)
-#+end_src
-
-** Line highlight
-#+begin_src emacs-lisp
+  ;; Line highlighting
   (when window-system (global-hl-line-mode t))
-#+end_src
-
-** Config reload
-#+begin_src emacs-lisp
+  ;; Enable line number in prog mode
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  ;; Column indicator
+  (display-fill-column-indicator-mode)
+  (add-hook 'org-mode-hook 'display-fill-column-indicator-mode)
+  (add-hook 'prog-mode 'display-fill-column-indicator-mode)
+  ;; GNU style indentation
+  (setq c-default-style "linux"
+        c-basic-offset 4)
+  ;; IBuffer default
+  (setq ibuffer-expert t)
+  ;; Frame opacity
+  (set-frame-parameter nil 'alpha-background 90)
+  (add-to-list 'default-frame-alist '(alpha-background . 90))
+  ;; Reload config file
   (defun config-reload ()
     "Reloads ~/.emacs.d/config.org at runtime"
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
   (global-set-key (kbd "C-c r") 'config-reload)
-#+end_src
-
-** Column indicator
-#+begin_src emacs-lisp
-  (display-fill-column-indicator-mode)
-  (add-hook 'org-mode-hook 'display-fill-column-indicator-mode)
-  (add-hook 'prog-mode 'display-fill-column-indicator-mode)
-#+end_src
-
-** For Desktop environment
-*** Hide title bar
-#+begin_src emacs-lisp
-  (setq default-frame-alist '((undecorated . t)))
-#+end_src
-
-*** Recenter emacs window
-#+begin_src emacs-lisp
-  (defun frame-center ()
-    "Center the current frame."
-    (interactive)
-    (let* ((dw (display-pixel-width))
-           (dh (display-pixel-height))
-           (f  (selected-frame))
-           (fw (frame-pixel-width f))
-           (fh (frame-pixel-height f))
-           (x  (- (/ dw 2) (/ fw 2)))
-           (y  (- (/ dh 2) (/ fh 2))))
-      (message (format "dw %d dh %d fw %d fh %d x %d y %d" dw dh fw fh x y))
-      (set-frame-position f x y)))
-  (run-with-idle-timer 0 nil #'frame-center)
-#+end_src
-
-** Frame opacity
-#+begin_src emacs-lisp
-  (add-to-list 'default-frame-alist '(alpha-background . 96))  ; Default transparency for all new frames
+  ;; Run aliases in shell-command
+  (setq shell-command-switch "-ic")
 #+end_src
 
 * Packages
@@ -93,23 +58,6 @@
     :ensure t
     :init
     (which-key-mode 1))
-#+end_src
-
-*** Dashboard
-#+begin_src emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-startup-banner "~/.emacs.d/dashboard/emacs.png")
-    (setq dashboard-banner-logo-title nil)
-    (setq dashboard-set-init-info nil)
-    (setq dashboard-center-content t)
-    (setq dashboard-footer-messages
-          (with-temp-buffer
-            (insert-file-contents "~/.emacs.d/dashboard/quotes")
-            (split-string (buffer-string) "\n" t)))
-    (setq dashboard-items '((recents  . 0))))
 #+end_src
 
 *** Open in external app
@@ -134,7 +82,10 @@
   ;; (setq xah-fly-use-control-key nil)
   (setq xah-fly-use-meta-key nil)
   (xah-fly-keys 1)
+  ;; Custom
   (defun xah-insert-angle-bracket () (interactive) (xah-insert-bracket-pair "<" ">"))
+  (global-set-key (kbd "<escape>") 'xah-fly-command-mode-activate)
+  (define-key key-translation-map (kbd "C-e") (kbd "C-g"))
 #+end_src
 
 *** Latex
@@ -177,11 +128,6 @@
     (rainbow-delimiters-mode 1))
 #+end_src
 
-*** Theme
-#+begin_src emacs-lisp
-  (set-face-background hl-line-face "#94242")
-#+end_src
-
 *** Mode line
 #+begin_src emacs-lisp
   (use-package doom-modeline
@@ -194,6 +140,25 @@
   (setq line-number-mode nil)
   #+end_src
 
+* Dired
+#+begin_src emacs-lisp
+  (setq dired-listing-switches "-alhv")  ; -a to include hidden files, -l for long format, -h for human-readable sizes
+  ;; Sort
+  (defun xah-dired-sort ()
+    (interactive)
+    (let (xsortBy xarg)
+      (setq xsortBy (completing-read "Sort by: " '( "date" "size" "name" )))
+      (cond
+       ((equal xsortBy "name") (setq xarg "-Alhv "))
+       ((equal xsortBy "date") (setq xarg "-Alh -t"))
+       ((equal xsortBy "size") (setq xarg "-Alh -S"))
+       ((equal xsortBy "dir") (setq xarg "-Al --group-directories-first"))
+       (t (error "logic error 09535" )))
+      (dired-sort-other xarg )))
+  (require 'dired )
+  (define-key dired-mode-map (kbd "s") 'xah-dired-sort)
+#+end_src
+
 * Programmig
 ** Magit
 #+begin_src emacs-lisp
@@ -204,18 +169,18 @@
     ("C-c f" . magit-file-dispatch))
 #+end_src
 
-** GNU style indenting
-#+begin_src emacs-lisp
-  (setq c-default-style "linux"
-        c-basic-offset 4)
-#+end_src
-
 ** Comipilation
 #+begin_src emacs-lisp
+  (require 'ansi-color)
+  (defun colorize-compilation-buffer ()
+    "Apply ANSI color codes in the *compilation* buffer."
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region (point-min) (point-max))))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
   (use-package recompile-on-save
     :ensure t)
   (recompile-on-save-advice compile)
-
   (use-package smart-compile
     :ensure t
     :bind
@@ -232,6 +197,7 @@
     :config
     (lsp-enable-which-key-integration t))
 
+  (setq lsp-modeline-code-actions-enable nil)
 #+end_src
 #+begin_src emacs-lisp
   (use-package flycheck
@@ -263,13 +229,18 @@
     (add-to-list 'exec-path "~/Programming/golang/bin")
     ;; add imports
     (setq gofmt-command "goimports"))
+
+  ;; Format(fmt) file on save
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 #+end_src
 
-*** fmt on save
+** Lua mode
 #+begin_src emacs-lisp
-(add-hook 'go-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook 'gofmt-before-save nil t)))
+  (use-package lua-mode
+               :ensure t)
+
 #+end_src
 
 * Org mode
@@ -281,10 +252,12 @@
   (setq org-confirm-babel-evaluate nil)
   (setq org-export-with-smart-quotes t)
   (setq org-src-window-setup 'current-window)
-
   (setq org-hide-emphasis-markers t)
-
   (add-hook 'org-mode-hook 'org-indent-mode)
+
+  (setq org-structure-template-alist
+        '(("el" . "src emacs-lisp\n")))
+  (global-set-key (kbd "C-c '") 'org-edit-src-code)
 #+end_src
 
 ** Org-superstar
@@ -295,114 +268,7 @@
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 #+end_src
 
-** Org agenda
-*** Better defaults
-#+begin_src emacs-lisp
-  (setq org-agenda-span 10)
-  ;; (setq org-agenda-span 10
-        ;; org-agenda-start-on-weekday nil
-        ;; org-agenda-start-day "-1d")
-#+end_src
-
-*** Better syntax for org-capture-template
-#+begin_src emacs-lisp
-  (use-package doct
-    :ensure t
-    ;;recommended: defer until calling doct
-    :commands (doct))
-#+end_src
-
-*** Creating templater
-#+begin_src emacs-lisp
-  (defvar +org-capture-todo-file  "/home/ethan/Documents/self/temp.org")
-  (defun set-org-capture-templates ()
-    (setq org-capture-templates
-          (doct `(
-                  ;; ("todo" :keys "t"
-                   ;; :icon ("checklist" :set "octicon" :color "green")
-                   ;; :file +org-capture-todo-file
-                   ;; :prepend t
-                   ;; :headline "TODO's"
-                   ;; :type entry
-                   ;; :template ("* TODO %?"
-                              ;; "%i %a"))
-                  ("Tasks" :keys "k"
-                   :icon ("inbox" :set "octicon" :color "yellow")
-                   :file +org-capture-todo-file
-                   :prepend t
-                   :headline "Tasks"
-                   :type entry
-                   :template ("* TODO %? %^G%{extra}"
-                              "%i %a")
-                   :children (("General Task" :keys "k"
-                               :icon ("inbox" :set "octicon" :color "yellow")
-                               :extra "")
-                              ("Task with deadline" :keys "d"
-                               :icon ("timer" :set "material" :color "orange" :v-adjust -0.1)
-                               :extra "\nDEADLINE: %^{Deadline:}t")
-                              ("Scheduled Task" :keys "s"
-                               :icon ("calendar" :set "octicon" :color "orange")
-                               :extra "\nSCHEDULED: %^{Start time:}t")))
-                  ("WAITING" :keys "w"
-                   :icon ("inbox" :set "octicon" :color "yellow")
-                   :file +org-capture-todo-file
-                   :prepend t
-                   :headline "Waiting"
-                   :type entry
-                   :template ("** WAITING %?"
-                              "%i %a"))))))
-  (set-org-capture-templates)
-#+end_src
-
-*** Org-super-agenda
-#+begin_src emacs-lisp
-  (use-package org-super-agenda
-    :ensure t
-    :commands org-super-agenda-mode)
-  (org-super-agenda-mode)
-  (setq org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t
-        org-agenda-include-deadlines t
-        org-agenda-block-separator nil
-        org-agenda-tags-column 100 ;; from testing this seems to be a good value
-        org-agenda-compact-blocks t)
-
-  (setq org-agenda-custom-commands
-        '(("o" "Overview"
-           ((agenda "" ((org-agenda-span 'day)
-                        (org-super-agenda-groups
-                         '((:name "Today"
-                                  :time-grid t
-                                  :date today
-                                  :todo "TODAY"
-                                  :scheduled today
-                                  :order 1)))))
-            (alltodo "" ((org-agenda-overriding-header "")
-                         (org-super-agenda-groups
-                          '(
-                            (:name "Next to do"
-                                   :todo "NEXT"
-                                   :order 1)
-                            (:name "Calendar"
-                                   :todo "TODO"
-                                   :order 2)
-                            (:name "Due Today"
-                                   :deadline today
-                                   :order 1)
-                            (:name "Due Soon"
-                                   :deadline future
-                                   :order 8)
-                            (:name "Overdue"
-                                   :deadline past
-                                   :face error
-                                   :order 7)
-                            (:name "Waiting"
-                                   :todo "WAITING"
-                                   :order 20)
-                            (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
-#+end_src
-
-*** Org todo keywords
+** Org todo keywords
 #+begin_src emacs-lisp
   (setq org-fast-tag-selection-include-todo t)
   ;; Custom State Keywords
@@ -426,32 +292,4 @@
           ("INACTIVE" :foreground "magenta" :weight bold)
           ("SOMEDAY" :foreground "cyan" :weight bold)
           ("CANCELLED" :foreground "forest green" :weight bold)))
-#+end_src
-
-** Structure templates
-#+begin_src emacs-lisp
-  (setq org-structure-template-alist
-        '(("el" . "src emacs-lisp\n")))
-#+end_src
-
-** Calfw
-#+begin_src emacs-lisp
-  (require 'calfw-org)
-  (require 'calfw)
-  (setq calendar-week-start-day 1)
-  (setq cfw:display-calendar-holidays nil)
-#+end_src
-* Keybindings
-** Xah-Fly-Keys
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "<escape>") 'xah-fly-command-mode-activate)
-    (define-key key-translation-map (kbd "C-e") (kbd "C-g"))
-  #+end_src
-
-** Org-mode
-#+begin_src emacs-lisp
-    (global-set-key (kbd "C-c '") 'org-edit-src-code)
-    (global-set-key (kbd "<f12>") 'org-agenda)
-    (global-set-key (kbd "<f11>") 'cfw:open-org-calendar)
-    (global-set-key (kbd "C-c c") 'org-capture)
 #+end_src

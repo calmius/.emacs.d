@@ -11,15 +11,18 @@
 
 ;;; Bootstrapping use-package
 (unless (package-installed-p 'use-package)
-  (package-esh-contents)
+  (package-refresh-contents)
   (package-install 'use-package))
 
 ;;; This is the actual config file. It is omitted if it doesn't exist so emacs won't refuse to launch.
 (when (file-readable-p "~/.emacs.d/config.org")
   (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
-
-(setq fill-column 70)
-(auto-fill-mode 1)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;g
+;;  '(doom-modeline-bar ((t (:background "gainsboro"))))
+;;  '(doom-modeline-bar-inactive ((t (:background "#585858"))))
+;;  '(hl-line ((t (:extend t :background "gainsboro"))))
+;;  '(warning ((t (:foreground "navajo white" :weight bold)))))
+(put 'narrow-to-page 'disabled nil)
 
 (server-start)
 (custom-set-variables
@@ -27,25 +30,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(rose-pine))
- '(default
-   ((t
-     (:inherit nil :extend nil :stipple nil :background "#212121" :foreground "#FFFFFF" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "ADBO" :family "Iosevka Curly"))))
- '(display-fill-column-indicator nil)
- '(display-fill-column-indicator-mode-hook '(display-fill-column-indicator-mode-set-explicitly))
- '(global-display-fill-column-indicator-mode t)
- '(lsp-modeline-code-actions-enable nil)
+ '(custom-enabled-themes '(modus-operandi))
  '(package-selected-packages
-   '(typescript-mode lua-mode sublime-themes company xah-fly-keys which-key use-package tablist sudo-edit ssh smart-compile recompile-on-save rainbow-mode rainbow-delimiters pretty-mode org-superstar org-super-agenda org-noter org-bullets openwith mindre-theme magit lsp-mode log4e ido-vertical-mode helpful go-mode gntp font-utils flycheck doom-themes doom-modeline diminish dashboard darktooth-theme color-theme-sanityinc-tomorrow auctex)))
+   '(lua-mode which-key use-package sudo-edit ssh smart-compile recompile-on-save rainbow-mode rainbow-delimiters org-superstar org-super-agenda openwith magit lsp-mode go-mode flycheck doom-modeline doct company auctex)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :foreground "#c5c8c6" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 120 :width normal :foundry "PfEd" :family "Iosevka Curly"))))
- '(doom-modeline-bar ((t (:background "gainsboro"))))
- '(doom-modeline-bar-inactive ((t (:background "#585858"))))
- '(hl-line ((t (:extend t :background "gainsboro"))))
- '(warning ((t (:foreground "navajo white" :weight bold)))))
-
-(put 'narrow-to-page 'disabled nil)
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "#ffffff" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 113 :width normal :foundry "UKWN" :family "Comic Code")))))
