@@ -1,6 +1,42 @@
 * Add files
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp/")
+  ;; (add-to-list 'load-path "~/.emacs.d/modus-themes")
+#+end_src
+
+* Theme
+#+begin_src emacs-lisp
+(set-frame-font "Comic Code 11" nil t)
+  (use-package modus-themes
+    :ensure t
+    :config
+    ;; (setq modus-themes-common-palette-overrides
+    ;;       ;; Remove the border
+    ;;       '((border-mode-line-active unspecified)
+    ;;         (border-mode-line-inactive unspecified)
+    ;;         ;; Small changes
+    ;;         (bg-hl-line bg-dim)
+    ;;         ;; (cursor fg-ochre)
+    ;;         (cursor red)
+    ;;         (bg-tab-bar bg-main)
+    ;;         (bg-tab-current bg-active)
+    ;;         (bg-tab-other bg-dim)
+    ;;         (comment yellow-faint)))
+    (setq modus-operandi-tinted-palette-overrides
+          ;; Remove the border
+          '((border-mode-line-active unspecified)
+            (border-mode-line-inactive unspecified)
+            ;; Small changes
+            (bg-hl-line bg-dim)
+            (cursor fg-ochre)
+            (bg-tab-bar bg-main)
+            (bg-tab-current bg-active)
+            (bg-tab-other bg-dim)
+            (comment yellow-faint)))
+
+    (load-theme 'modus-operandi-tinted)
+    (enable-theme 'modus-operandi-tinted))
+
 #+end_src
 
 * Better defaults
@@ -11,8 +47,7 @@
   (scroll-bar-mode -1)
   (setq inhibit-startup-message t)
   (setq make-backup-files nil)
-  ;; (setq auto-save-default nil)
-  (setq auto-save-list-file-prefix nil)
+  (setq auto-save-default nil)
   (setq scroll-conservatively 100)
   (defalias 'yes-or-no-p 'y-or-n-p)
   (global-subword-mode 1)
@@ -31,8 +66,8 @@
   ;; IBuffer default
   (setq ibuffer-expert t)
   ;; Frame opacity
-  (set-frame-parameter nil 'alpha-background 90)
-  (add-to-list 'default-frame-alist '(alpha-background . 90))
+  (set-frame-parameter nil 'alpha-background 78)
+  ;; (add-to-list 'default-frame-alist '(alpha-background . 100))
   ;; Reload config file
   (defun config-reload ()
     "Reloads ~/.emacs.d/config.org at runtime"
@@ -132,14 +167,29 @@
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :ensure t
-    :init (doom-modeline-mode 1))
-  (setq doom-modeline-icon nil)
-  (setq doom-modeline-buffer-encoding nil)
-  (setq doom-modeline-minor-modes nil)
-  (setq doom-modeline-modal nil)
-  (setq line-number-mode nil)
+    :init
+    (doom-modeline-mode 1)
+    (setq doom-modeline-major-mode-color-icon nil)
+    (setq doom-modeline-buffer-encoding nil)
+    (setq doom-modeline-minor-modes nil)
+    (setq doom-modeline-modal nil)
+    (setq line-number-mode nil))
   #+end_src
 
+*** Icons
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :if (display-graphic-p))
+  (use-package all-the-icons-dired
+    :ensure t
+    :hook (dired-mode . all-the-icons-dired-mode))
+  (use-package all-the-icons-ibuffer
+    :ensure t
+    :init
+    (setq all-the-icons-ibuffer-color-icon nil)
+    (setq all-the-icons-ibuffer-human-readable-size t)
+    :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
+#+end_src
 * Dired
 #+begin_src emacs-lisp
   (setq dired-listing-switches "-alhv")  ; -a to include hidden files, -l for long format, -h for human-readable sizes
@@ -157,6 +207,10 @@
       (dired-sort-other xarg )))
   (require 'dired )
   (define-key dired-mode-map (kbd "s") 'xah-dired-sort)
+
+  (require 'ls-lisp)
+  (setq ls-lisp-dirs-first  t)
+  ;; (setq ls-lisp-use-insert-directory-program  nil)
 #+end_src
 
 * Programmig
@@ -214,8 +268,7 @@
           company-minimum-prefix-lenght 1))
 #+end_src
 
-** Golang
-*** go-mode
+** Golang mode
 #+begin_src emacs-lisp
   (use-package go-mode
     :ensure t
@@ -240,7 +293,6 @@
 #+begin_src emacs-lisp
   (use-package lua-mode
                :ensure t)
-
 #+end_src
 
 * Org mode

@@ -2,7 +2,19 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("cources"
+(("test"
+ (filename . "~/Programming/golang/foo.go")
+ (front-context-string . "package main\n\nim")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26398 33017 543567 972000))
+("gonotes"
+ (filename . "~/Programming/cources/ultimateGo/notes.org")
+ (front-context-string . "* Types\nGo has 3")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26398 2854 435331 798000))
+("cources"
  (filename . "~/Programming/cources/")
  (front-context-string . "SoftwareDevelopm")
  (rear-context-string . "0K Aug  3 15:27 ")
@@ -20,12 +32,6 @@
  (rear-context-string . "96 Sep  5 16:41 ")
  (position . 514)
  (last-modified 26376 13523 340917 417000))
-("pnotes"
- (filename . "~/Documents/self/notes/programmingnotes.org")
- (front-context-string . "\n* The Go Progra")
- (rear-context-string)
- (position . 1)
- (last-modified 26382 7400 100107 126000))
 ("stick"
  (filename . "/media/ethan/")
  (front-context-string . ".\n  drwxr-xr-x  ")
@@ -50,17 +56,12 @@
  (rear-context-string . "96 Oct  5 09:18 ")
  (position . 159)
  (last-modified 26376 13509 246154 32000))
-("bin"
- (filename . "~/.local/bin/")
- (front-context-string . ".\n  drwx------ 5")
- (rear-context-string . "96 Aug  6 23:11 ")
- (position . 129))
-("0"
+("d"
  (filename . "~/Downloads/")
  (front-context-string . "Silberschatz A.,")
  (rear-context-string . "74 Sep 14 18:37 ")
  (position . 178)
- (last-modified 26341 43203 711572 876000))
+ (last-modified 26396 46372 988177 794000))
 ("repo"
  (filename . "~/Programming/repo/")
  (front-context-string . ".\n  drwxr-xr-x 6")
