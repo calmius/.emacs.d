@@ -34,15 +34,19 @@
   ;; Frame opacity
   (set-frame-parameter nil 'alpha-background 90)
   ;; (add-to-list 'default-frame-alist '(alpha-background . 100))
+  ;; Run aliases in shell-command
+  (setq shell-command-switch "-ic")
+#+end_src
+
+** Config Reload
+#+begin_src emacs-lisp
   ;; Reload config file
   (defun config-reload ()
     "Reloads ~/.emacs.d/config.org at runtime"
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
-  (global-set-key (kbd "C-c r") 'config-reload)
-  ;; Run aliases in shell-command
-  (setq shell-command-switch "-ic")
 #+end_src
+
 ** Recenter frame
 #+begin_src emacs-lisp
   (defun frame-center ()
@@ -86,21 +90,62 @@
     (setq openwith-associations
           '(("\\.pdf\\'" "zathura" (file))
             ("\\.epub\\'" "zathura" (file))
-            ("\\.mkv\\'" "mpv" (file))
-            ("\\.doc\\'" "onlyoffice-desktopeditors" (file)))))
+            ("\\.mkv\\'" "mpv" (file)))))
 #+end_src
 ** Tools
-*** Xah-Fly-Keys
+*** xah-fly-keys
 #+begin_src emacs-lisp
+  ;; Package setup
   (require 'xah-fly-keys)
-  (xah-fly-keys-set-layout "colemak-dhm")
+  (require 'xah-fly-keys-org)
+  (xah-fly-keys-set-layout "colemak-dh")
   (setq xah-fly-use-meta-key nil)
   (xah-fly-keys 1)
-  ;; Custom
-  (defun xah-insert-angle-bracket () (interactive) (xah-insert-bracket-pair "<" ">"))
+  ;; Custom settingt
   (global-set-key (kbd "<escape>") 'xah-fly-command-mode-activate)
-  (define-key key-translation-map (kbd "C-e") (kbd "C-g"))
+  (defun xah-insert-angle-bracket () (interactive) (xah-insert-bracket-pair "<" ">"))
+  (defun xah-insert-asterics () (interactive) (xah-insert-bracket-pair "*" "*" ))
+  (define-key xah-fly-leader-key-map (kbd "s 8") 'xah-insert-asterics)
   (define-key xah-fly-leader-key-map (kbd "i 9") 'async-shell-command)
+  (define-key xah-fly-leader-key-map (kbd "i s") 'magit)
+  (define-key xah-fly-leader-key-map (kbd "i r") 'config-reload)
+#+end_src
+
+**** Escape key
+#+begin_src emacs-lisp
+  (progn
+    (defun xah-fly-keys-escape ()
+      (interactive)
+      (when (region-active-p)
+        (deactivate-mark))
+      (when (active-minibuffer-window)
+        (abort-recursive-edit)))
+
+    (define-key xah-fly-command-map (kbd "<escape>")     'xah-fly-keys-escape))
+
+  (progn
+    (defvar xah-fly-keys-fast-keyseq-timeout 200)
+
+    (defun xah-fly-keys-tty-ESC-filter (map)
+      (if (and (equal (this-single-command-keys) [?\e])
+               (sit-for (/ xah-fly-keys-fast-keyseq-timeout 1000.0)))
+          [escape] map))
+
+    (defun xah-fly-keys-lookup-key (map key)
+      (catch 'found
+        (map-keymap (lambda (k b) (if (equal key k) (throw 'found b))) map)))
+
+    (defun xah-fly-keys-catch-tty-ESC ()
+      "Setup key mappings of current terminal to turn a tty's ESC into
+  `escape'."
+      (when (memq (terminal-live-p (frame-terminal)) '(t pc))
+        (let ((esc-binding (xah-fly-keys-lookup-key input-decode-map ?\e)))
+          (define-key input-decode-map
+            [?\e] `(menu-item "" ,esc-binding :filter xah-fly-keys-tty-ESC-filter)))))
+
+    (xah-fly-keys-catch-tty-ESC)
+
+    (define-key key-translation-map (kbd "ESC") (kbd "<escape>")))
 #+end_src
 
 *** Latex
@@ -295,7 +340,6 @@
 
   (setq org-structure-template-alist
         '(("el" . "src emacs-lisp\n")))
-  (global-set-key (kbd "C-c C-\\") 'org-edit-src-code)
 #+end_src
 
 ** Org-superstar
@@ -334,7 +378,7 @@
 
 * Theme
 #+begin_src emacs-lisp
-  (set-frame-font "Comic Code 11" nil t)
+  (set-frame-font "Comic Code 9" nil t)
 
   ;; Disable borders from left and right
   (set-fringe-mode 0)
@@ -355,7 +399,7 @@
             (bg-tab-other bg-dim)
             (comment yellow-faint)))
 
-    ;; Vivendi tinted palette
+    ;; Vivendi palette
     (setq modus-vivendi-palette-overrides
           '( ;; Base Colors
             (fg-main "#999999")
@@ -454,4 +498,8 @@
 
   ;; (load-theme 'modus-vivendi)
   ;; (enable-theme 'modus-vivendi)
+
+  ;; (load-theme 'modus-operandi-tinted)
+  ;; (enable-theme 'modus-operandi-tinted)
 #+end_src
+
