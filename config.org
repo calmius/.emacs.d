@@ -1,3 +1,5 @@
+ #+STARTUP: content
+ 
 * Add files
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -93,8 +95,9 @@
 
 ** Tools
 *** xah-fly-keys
+**** init and settings
 #+begin_src emacs-lisp
-  ;; Package setup
+  ;; init
   (require 'xah-fly-keys)
   (require 'xah-fly-keys-org)
   (xah-fly-keys-set-layout "colemak-dh")
@@ -109,7 +112,6 @@
   (define-key xah-fly-leader-key-map (kbd "i s") 'magit)
   (define-key xah-fly-leader-key-map (kbd "i r") 'config-reload)
 #+end_src
-
 **** Escape key
 #+begin_src emacs-lisp
   (progn
@@ -167,7 +169,6 @@
               (setq ssh-directory-tracking-mode t)
               (shell-dirtrack-mode t)
               (setq dirtrackp nil)))
-
 #+end_src
 
 ** Visual
@@ -248,10 +249,7 @@
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
-    :ensure t
-    :bind
-    ("C-c g" . magit-dispatch)
-    ("C-c f" . magit-file-dispatch))
+    :ensure t)
 #+end_src
 
 ** Comipilation
@@ -266,10 +264,10 @@
   (use-package recompile-on-save
     :ensure t)
   (recompile-on-save-advice compile)
-  (use-package smart-compile
-    :ensure t
-    :bind
-    ("C-u" . smart-compile))
+  ;; (use-package smart-compile
+  ;;   :ensure t
+  ;;   :bind
+  ;;   ("C-u" . smart-compile))
 #+end_src
 
 ** Language server protocol
@@ -284,6 +282,7 @@
 
   (setq lsp-modeline-code-actions-enable nil)
 #+end_src
+** Fly-check
 #+begin_src emacs-lisp
   (use-package flycheck
     :ensure t)
@@ -298,8 +297,8 @@
     (setq company-idle-delay 0.1
           company-minimum-prefix-lenght 1))
 #+end_src
-
-** Golang mode
+** Prog modes
+*** Golang mode
 #+begin_src emacs-lisp
   (use-package go-mode
     :ensure t
@@ -320,25 +319,130 @@
               (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 #+end_src
 
-** Lua mode
+*** Lua mode
 #+begin_src emacs-lisp
   (use-package lua-mode
                :ensure t)
 #+end_src
 
 * Org mode
-** Common settings
+** GTD workflow
 #+begin_src emacs-lisp
-  (setq org-ellipsis " ")
-  (setq org-src-fontify-natively t)
-  (setq org-src-tab-acts-natively t)
-  (setq org-confirm-babel-evaluate nil)
-  (setq org-export-with-smart-quotes t)
+  (setq org-directory "~/Documents/org")
+  (setq org-agenda-files (list "inbox.org" "agenda.org" "projects.org"))
+  (define-key global-map (kbd "C-c c") 'org-capture)
+  (define-key global-map (kbd "C-c a") 'org-agenda)
+
+  ;; Capture templates
+  (setq org-capture-templates
+	`(("i" "Inbox" entry  (file "inbox.org")
+	   ,(concat "* TODO %?\n"
+		    "/Entered on/ %U"))
+	  ("m" "Meeting" entry  (file+headline "agenda.org" "Future")
+	   ,(concat "* %?\n"
+		    "<%<%Y-%m-%d %a %H:00>>"))))
+
+  ;; Capture "Inbox" entry right way "C-c i"
+  (defun org-capture-inbox ()
+    (interactive)
+    (call-interactively 'org-store-link)
+    (org-capture nil "i"))
+  (define-key global-map (kbd "C-c i") 'org-capture-inbox)
+
+  ;; Refile from inbox to projects
+  (setq org-refile-targets
+	'(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")))
+  (setq org-refile-use-outline-path 'file)
+  (setq org-outline-path-complete-in-steps nil)
+
+  ;; Add key words
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)")))
+
+  ;; Add timestamp when changed to NEXT
+  (defun log-todo-next-creation-date (&rest ignore)
+    "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
+    (when (and (string= (org-get-todo-state) "NEXT")
+	       (not (org-entry-get nil "ACTIVATED")))
+      (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
+  (add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
+
+  ;; Estimate time to complete a task
+  (setq org-log-done 'time)
+
+  ;; Hide tag and filename in aganda view
+  (setq org-agenda-hide-tags-regexp ".")
+  (setq org-agenda-prefix-format
+	'((agenda . " %i %-12:c%?-12t% s")
+	  (todo   . " ")
+	  (tags   . " %i %-12:c")
+	  (search . " %i %-12:c")))
+
+  ;; Customi agenda view
+  (setq org-agenda-custom-commands
+	'(("g" "Get Things Done (GTD)"
+	   ((agenda ""
+		    ((org-agenda-skip-function
+		      '(org-agenda-skip-entry-if 'deadline))
+		     (org-deadline-warning-days 0)))
+	    (todo "NEXT"
+		  ((org-agenda-skip-function
+		    '(org-agenda-skip-entry-if 'deadline))
+		   (org-agenda-prefix-format "  %i %-12:c [%e] ")
+		   (org-agenda-overriding-header "\nTasks\n")))
+	    (agenda nil
+		    ((org-agenda-entry-types '(:deadline))
+		     (org-agenda-format-date "")
+		     (org-deadline-warning-days 7)
+		     (org-agenda-skip-function
+		      '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+		     (org-agenda-overriding-header "\nDeadlines")))
+	    (tags-todo "inbox"
+		       ((org-agenda-prefix-format "  %?-12t% s")
+			(org-agenda-overriding-header "\nInbox\n")))
+	    (tags "CLOSED>=\"<today>\""
+		  ((org-agenda-overriding-header "\nCompleted today\n")))))))
+
+  ;; Save files after org-capture
+  (setq org-agenda-files
+	(mapcar 'file-truename
+		(file-expand-wildcards "~/Documents/org/*.org")))
+  ;; Save the corresponding buffers
+  (defun gtd-save-org-buffers ()
+    "Save `org-agenda-files' buffers without user confirmation.
+  See also `org-save-all-org-buffers'"
+    (interactive)
+    (message "Saving org-agenda-files buffers...")
+    (save-some-buffers t (lambda ()
+			   (when (member (buffer-file-name) org-agenda-files)
+			     t)))
+    (message "Saving org-agenda-files buffers... done"))
+  ;; Add it after refile
+  (advice-add 'org-refile :after
+	      (lambda (&rest _)
+		(gtd-save-org-buffers)))
+
+  ;; Change from TODO to DONE when all children are done.
+  (defun org-summary-todo (n-done n-not-done)
+    (let (org-log-done org-todo-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  (add-hook 'org-after-todo-statistics-hook #'org-summary-todo)
+
+  ;; Olivetti-mode
+  (add-hook 'org-mode-hook 'olivetti-mode)
+  (add-hook 'org-agenda-mode-hook 'olivetti-mode)
+
+  ;; Use the whole window
+  (add-hook 'org-capture-mode-hook 'delete-other-windows)
+  (add-hook 'org-agenda-mode-hook 'delete-other-windows)
+
+#+end_src
+
+** Settings
+#+begin_src emacs-lisp
   (setq org-src-window-setup 'current-window)
   (setq org-hide-emphasis-markers t)
-  (add-hook 'org-mode-hook 'org-indent-mode)
-  (add-hook 'org-mode-hook 'olivetti-mode)
-
+  ;; (add-hook 'org-mode-hook 'org-indent-mode)
   (setq org-structure-template-alist
         '(("el" . "src emacs-lisp\n")))
 
@@ -352,40 +456,11 @@
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 #+end_src
 
-** Org todo keywords
-#+begin_src emacs-lisp
-  (setq org-fast-tag-selection-include-todo t)
-  ;; Custom State Keywords
-  (setq org-use-fast-todo-selection t)
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "PROJ(p)" "|" "DONE(d)")
-          (sequence "TASK(T)")
-          (sequence "AMOTIVATOR(MA)" "TMOTIVATOR(MT)" "CMOTIVATOR(MC)" "|")
-          (sequence "WAITING(w@/!)" "INACTIVE(i)" "SOMEDAY(s)" "|" "CANCELLED(c@/!)")))
-  ;; Custom colors for the keywords
-  (setq org-todo-keyword-faces
-        '(("TODO" :foreground "red" :weight bold)
-          ("TASK" :foreground "#5C888B" :weight bold)
-          ("NEXT" :foreground "#5C999B" :weight bold)
-          ("PROJ" :foreground "magenta" :weight bold)
-          ("AMOTIVATOR" :foreground "#F06292" :weight bold)
-          ("TMOTIVATOR" :foreground "#AB47BC" :weight bold)
-          ("CMOTIVATOR" :foreground "#5E35B1" :weight bold)
-          ("DONE" :foreground "forest green" :weight bold)
-          ("WAITING" :foreground "orange" :weight bold)
-          ("INACTIVE" :foreground "magenta" :weight bold)
-          ("SOMEDAY" :foreground "cyan" :weight bold)
-          ("CANCELLED" :foreground "forest green" :weight bold)))
-#+end_src
-
 * Theme
 #+begin_src emacs-lisp
-  ;; (set-frame-font "Comic Code 10" nil t)
-  (set-frame-font "Iosevka Comfy Duo 12" nil t)
-
+  (set-frame-font "Iosevka Comfy 10" nil t)
   ;; Disable borders from left and right
   (set-fringe-mode 0)
-
   (use-package modus-themes
     :ensure t
     :config
@@ -405,7 +480,7 @@
     ;; Vivendi palette
     (setq modus-vivendi-palette-overrides
           '( ;; Base Colors
-            ;; (fg-main "#999999")
+            ;; (fg-main "#cccccc")
             ;; (comment "#333333")
             (red             "#d88b88")
             (red-warmer      "#d89484")
@@ -503,8 +578,11 @@
             ;; Current line
             (bg-hl-line "#090909"))))
 
-  ;; (load-theme 'modus-vivendi)
-  ;; (enable-theme 'modus-vivendi)
+  (load-theme 'modus-vivendi)
+  (enable-theme 'modus-vivendi)
+
+  ;; (load-theme 'modus-vivendi-tinted)
+  ;; (enable-theme 'modus-vivendi-tinted)
 
   ;; (load-theme 'modus-operandi-tinted)
   ;; (enable-theme 'modus-operandi-tinted)
