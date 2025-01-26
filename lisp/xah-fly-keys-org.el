@@ -223,15 +223,20 @@ Version: 2024-04-30"
       (define-key xah-org-leader-map (kbd "z") #'org-add-note)
       (define-key xah-org-leader-map (kbd "i") #'org-edit-special)
 
-      ;;
+      ;;; Custom bindings
+
+      (define-key xah-org-leader-map (kbd "e") nil)
+      (define-key xah-org-leader-map (kbd "h") #'org-emphasize)
+      ;; Move throught headlines and items
+      (define-key xah-org-leader-map (kbd "i") #'outline-next-visible-heading)
+      (define-key xah-org-leader-map (kbd "n") #'outline-previous-visible-heading)
+
       )
-
     (define-key org-mode-map (kbd xah-major-leader-key) xah-org-leader-map)
-
     ;;
     ))
 
-  (add-hook 'org-mode-hook 'xah-set-org-mode-keys)
+(add-hook 'org-mode-hook 'xah-set-org-mode-keys)
 
 (provide 'xah-fly-keys-org)
 

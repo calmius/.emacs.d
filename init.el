@@ -1,21 +1,35 @@
-(require 'package)
-(setq package-enable-at-startup nil)
-
-;;; remove SC if you are not using sunrise commander and org if you like outdated packages
-(setq package-archives '(("ELPA"  . "http://tromey.com/elpa/")
-			 ("gnu"   . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")
+(require 'use-package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			 ("elpa" . "https://elpa.gnu.org/packages/")
 			 ("org"   . "https://orgmode.org/elpa/")))
 (package-initialize)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq use-package-always-ensure t)
 
-;;; Bootstrapping use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; Extra packages which don't require lots of configuration
+(use-package rainbow-delimiters :init (rainbow-delimiters-mode 1))
+(use-package olivetti :custom (olivetti-body-width 80))
+(use-package sudo-edit :bind ("s-e" . sudo-edit))
+(use-package which-key :init (which-key-mode 1))
+(use-package rainbow-mode)
+(use-package lua-mode)
+(use-package flycheck)
+(use-package magit)
 
-;;; This is the actual config file. It is omitted if it doesn't exist so emacs won't refuse to launch.
-(when (file-readable-p "~/.emacs.d/config.org")
-  (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+;; Load module settings
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lib" user-emacs-directory))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'lib-modeline)
+(require 'lib-openwith)
+(require 'lib-company)
+(require 'lib-compile)
+(require 'lib-dired)
+(require 'lib-icons)
+(require 'lib-theme)
+(require 'lib-xah)
+(require 'lib-lsp)
+(require 'lib-web)
+(require 'lib-sql)
+(require 'lib-gtd)
+(require 'lib-org)
+(require 'lib-go)
