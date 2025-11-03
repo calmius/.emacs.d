@@ -1,7 +1,7 @@
 ;; Faces
 (set-face-attribute 'default nil
 		    :family "Iosevka Comfy"
-		    :height 180)
+		    :height 120)
 
 (set-frame-parameter nil 'internal-border-width 5)
 (set-frame-parameter nil 'alpha-background 90)
