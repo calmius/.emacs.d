@@ -7,11 +7,7 @@
 (setq pip-bin-dir (getenv "PIP_DIR"))
 (setenv "PATH" (concat (getenv "PATH") ":" pip-bin-dir))
 (setq exec-path (append exec-path '(pip-bin-dir)))
-
-
-
 (add-hook 'python-mode-hook 'flycheck-mode)
-
 ;; set location of flake8 executable
 (setq flycheck-python-flake8-executable
       (expand-file-name "flake8" pip-bin-dir))
@@ -40,5 +36,7 @@
 (add-hook 'python-mode-hook
           (lambda ()
 	    (local-set-key (kbd "C-c w") 'py-autopep8-buffer)))
+
+(add-hook 'python-mode-hook 'lsp-deferred)
 
 (provide 'lib-py)

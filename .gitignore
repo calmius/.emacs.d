@@ -1,9 +1,11 @@
-auto-save-list/
+tramp
+recal
 bookmarks
+auto-save-list/
 eln-cache/
 elpa/
 tramp/
 transient/
 url/
 temp/
-tramp
+
