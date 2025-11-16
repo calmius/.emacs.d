@@ -107,7 +107,7 @@
 (setq c-default-style "linux"
       c-basic-offset 4)
 ;; Produce backtraces when errors occur: can be helpful to diagnose startup issues
-(setq debug-on-error t)
+;; (setq debug-on-error t)
 ;; Ignore native compile warning
 (setq warning-minimum-level :emergency)
 

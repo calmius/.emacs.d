@@ -1,4 +1,4 @@
-(setq org-directory "~/Documents/org/gtd")
+(setq org-directory "~/Documents/org/managment")
 (setq org-agenda-files (list "inbox.org" "agenda.org" "projects.org" "someday.org"))
 (define-key global-map (kbd "C-c c") 'org-capture)
 (define-key global-map (kbd "C-c a") 'org-agenda)
@@ -20,10 +20,10 @@
 (define-key global-map (kbd "C-c i") 'org-capture-inbox)
 
 ;; Refile from inbox to projects
-(setq org-refile-targets
-      '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-        ("agenda.org" :regexp . "\\(?:Future\\)")))
-;; (setq org-refile-targets '((org-agenda-files :maxlevel . 2)))
+;; (setq org-refile-targets
+      ;; '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+        ;; ("agenda.org" :regexp . "\\(?:Future\\)")))
+(setq org-refile-targets '((org-agenda-files :maxlevel . 2)))
 
 
 (setq org-refile-use-outline-path 'file)
