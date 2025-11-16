@@ -1,9 +1,9 @@
-tramp
-transient
-temp
-org-persist
-image-dired
-eshell
+tramp/
+transient/
+temp/
+org-persist/
+image-dired/
+eshell/
 bookmarks
-auto-save-list
-elpa
+auto-save-list/
+elpa/
