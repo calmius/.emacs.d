@@ -7,8 +7,8 @@
 
 (use-package recompile-on-save )
 (recompile-on-save-advice compile)
-(use-package smart-compile
-  :bind
-  ("C-u" . smart-compile))
+(use-package smart-compile)
+  ;; :bind
+  ;; ("C-u" . smart-compile))
 
 (provide 'lib-compile)

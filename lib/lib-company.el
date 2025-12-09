@@ -1,7 +1,16 @@
 (use-package company
-  :config
-  (company-tng-configure-default)
-  (setq company-idle-delay 0.1 
-        company-minimum-prefix-lenght 1))
+  :hook ((prog-mode . company-mode))
+  :bind (:map company-active-map
+              ("<return>" . nil)
+              ("RET" . nil)
+              ("C-<return>" . company-complete-selection)
+              ([tab] . company-complete-selection)
+              ("TAB" . company-complete-selection)))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
 
 (provide 'lib-company)
+
+

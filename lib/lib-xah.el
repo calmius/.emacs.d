@@ -8,6 +8,7 @@
 (define-key xah-fly-leader-key-map (kbd "y r") 'async-shell-command)
 (define-key xah-fly-leader-key-map (kbd "y w") 'kmacro-start-macro)
 (define-key xah-fly-leader-key-map (kbd "y f") 'call-last-kbd-macro)
+(define-key xah-fly-leader-key-map (kbd "y a") 'smart-compile)
 (define-key xah-fly-leader-key-map (kbd "y p") 'kmacro-end-macro)
 (define-key xah-fly-leader-key-map (kbd "u g") 'rgrep)
 
