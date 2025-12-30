@@ -12,11 +12,18 @@
 (define-key xah-fly-leader-key-map (kbd "y p") 'kmacro-end-macro)
 (define-key xah-fly-leader-key-map (kbd "u g") 'rgrep)
 
+;;; Org roam bindings   
+(define-key xah-fly-leader-key-map (kbd "' t") 'org-roam-buffer-toggle)
+(define-key xah-fly-leader-key-map (kbd "' f") 'org-roam-node-find)
+(define-key xah-fly-leader-key-map (kbd "' l") 'org-roam-node-insert)
+(define-key xah-fly-leader-key-map (kbd "' c") 'completion-at-point)
+(define-key xah-fly-leader-key-map (kbd "' n") 'org-id-get-create)
+(define-key xah-fly-leader-key-map (kbd "' v") 'org-roam-buffer-toggle)
+
 ;; Disable functions
 (define-key xah-fly-leader-key-map (kbd "i l") 'nil)
 
 ;;; Escape key
-
 (progn
   (defun xah-fly-keys-escape ()
     (interactive)

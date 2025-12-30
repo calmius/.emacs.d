@@ -25,6 +25,7 @@
 ;; Org
 (require 'lib-gtd)
 (require 'lib-org)
+(require 'lib-roam)
 ;; Programming
 (require 'lib-company)
 (require 'lib-hugo)
@@ -38,15 +39,21 @@
 ;; Extra packages which don't require lots of configuration
 ;; (use-package rainbow-mode)
 ;; (use-package lua-mode)
-(use-package olivetti :custom (olivetti-body-width 80))
 (use-package rainbow-delimiters :init (rainbow-delimiters-mode 1))
 (use-package sudo-edit :bind ("s-e" . sudo-edit))
 (use-package which-key :init (which-key-mode 1))
 (use-package magit)
-(use-package yaml-mode)
+(use-package yaml-mode
+  :mode
+  ("\\.yaml\\'" "\\.yml\\'")
+  :custom-face
+  (font-lock-variable-name-face ((t (:foreground "#cba6f7"))))
+  :config)
+
 ;; Programming
 (use-package flycheck)
 
+;; (setq python-shell-interpreter "/home/max/.local/bin/ipython")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -56,7 +63,14 @@
  '(custom-enabled-themes '(poet-dark))
  '(custom-safe-themes
    '("afde6368be6868e8e3dd53fad1ac51223d5484f9e6836496e7987802c9a9663d"
-     default)))
+     default))
+ '(package-selected-packages
+   '(autothemer company-box dockerfile-mode doom-themes ef-themes
+		eldoc-box elpy f flycheck fontaine go-mode ht lv magit
+		markdown-mode mood-line olivetti org-modern
+		org-roam-ui ox-hugo poet-theme py-autopep8 pydoc
+		python-black rainbow-delimiters recompile-on-save
+		smart-compile spinner sudo-edit yaml-mode yaml-pro)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

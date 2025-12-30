@@ -8,4 +8,6 @@ tramp/
 transient/
 url/
 temp/
-
+org-roam.db
+session*
+snippets

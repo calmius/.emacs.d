@@ -1,5 +1,6 @@
 ;; Basic
 ;; (add-hook 'org-mode-hook 'org-indent-mode)
+;; (setq org-startup-with-inline-images nil)
 (setq org-src-window-setup 'current-window)
 (setq org-hide-emphasis-markers t)
 

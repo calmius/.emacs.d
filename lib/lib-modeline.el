@@ -16,4 +16,8 @@
         ((when (mood-line-segment-checker) "|") . "  ")
         ((mood-line-segment-checker)            . "  "))))
 
+;; Myna font on mood-line faces
+(set-face-attribute 'mode-line nil :family "Myna")
+(set-face-attribute 'mode-line-inactive nil :family "Myna")
+
 (provide 'lib-modeline)

@@ -2,7 +2,7 @@
   :init
   :hook
   ((python-mode . eglot-ensure)
-         (go-mode . eglot-ensure))
+   (go-mode . eglot-ensure))
   :config
   (add-to-list 'eglot-server-programs
                `(python-mode
@@ -11,8 +11,7 @@
                                           "pylsp")))))
 
 (use-package eldoc-box
-  :config
-  (setq eldoc-box-hover-mode t)
-  (setq eldoc-box-hover-at-point-mode t))
+  :hook ((prog-mode . eldoc-box-hover-mode)
+         (prog-mode . eldoc-box-hover-at-point-mode)))
 
-(provide 'lib-eglot)
+  (provide 'lib-eglot)
