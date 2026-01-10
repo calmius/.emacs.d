@@ -22,44 +22,28 @@
 ;; Controls
 (require 'lib-xah)
 ;; Org
-(require 'lib-gtd)
 (require 'lib-org)
+(require 'lib-gtd)
 (require 'lib-roam)
 ;; Programming
-(require 'lib-company)
-(require 'lib-hugo)
-(require 'lib-eglot)
-;; (require 'lib-go)
-(require 'lib-py)
-(use-package lua-mode)
-;; Emacs
+(require 'lib-dev)
+;; Other
 (require 'lib-compile)
 (require 'lib-dired)
+
 
 ;; Extra packages which don't require lots of configuration
 (use-package rainbow-mode)
 (use-package rainbow-delimiters :init (rainbow-delimiters-mode 1))
 (use-package sudo-edit :bind ("s-e" . sudo-edit))
 (use-package which-key :init (which-key-mode 1))
-(use-package magit)
-(use-package yaml-mode
-  :mode
-  ("\\.yaml\\'" "\\.yml\\'")
-  :custom-face
-  (font-lock-variable-name-face ((t (:foreground "#cba6f7"))))
-  :config)
-
-;; Programming
-(use-package flycheck)
-
-;; (setq auto-revert-check-vc-info t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(doom-miramare))
+ '(custom-enabled-themes '(doom-tomorrow-night))
  '(custom-safe-themes
    '("38b43b865e2be4fe80a53d945218318d0075c5e01ddf102e9bec6e90d57e2134"
      "1f292969fc19ba45fbc6542ed54e58ab5ad3dbe41b70d8cb2d1f85c22d07e518"
