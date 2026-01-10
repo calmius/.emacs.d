@@ -1,5 +1,5 @@
 (set-frame-parameter nil 'internal-border-width 5)
-(set-frame-parameter nil 'alpha-background 80)
+(set-frame-parameter nil 'alpha-background 78)
 ;; Hide title bar in DE
 (set-frame-parameter nil 'undecorated t)
 (set-fringe-mode 0)
@@ -10,8 +10,10 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
+;; Themes
+(use-package doom-themes)
 (use-package poet-theme)
-(set-face-attribute 'default nil :family "Myna" :height 170)
+(set-face-attribute 'default nil :family "Myna" :height 150)
 (set-face-attribute 'fixed-pitch nil :family "Myna")
 (set-face-attribute 'variable-pitch nil :family "Myna")
 
@@ -22,6 +24,7 @@
 	       (olivetti-mode 1))))
 (olivetti-global-mode)
 
+
 ;; Org mode settings
 (custom-set-faces
  '(org-level-1 ((t (:height 1.2))))
@@ -31,3 +34,4 @@
  '(org-document-title ((t (:height 1.3)))))
 
 (provide 'lib-theme)
+

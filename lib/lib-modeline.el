@@ -4,6 +4,7 @@
   (mood-line-mode))
 
 (setq mood-line-glyph-alist mood-line-glyphs-unicode)
+
 (setq mood-line-format
       (mood-line-defformat
        :left
@@ -14,6 +15,7 @@
        :right
        (((mood-line-segment-major-mode) . " ")
         ((when (mood-line-segment-checker) "|") . "  ")
+	((mood-line-segment-vc) . " ")
         ((mood-line-segment-checker)            . "  "))))
 
 ;; Myna font on mood-line faces

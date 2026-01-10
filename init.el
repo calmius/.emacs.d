@@ -3,8 +3,7 @@
 (setq package-archive-priorities '(("gnu" . 10)
                                    ("melpa" . 5))
       package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://stable.melpa.org/packages/")
-                         ("melpa-devel" . "https://melpa.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
 (setq use-package-always-ensure t)
@@ -31,14 +30,14 @@
 (require 'lib-hugo)
 (require 'lib-eglot)
 ;; (require 'lib-go)
-;; (require 'lib-py)
+(require 'lib-py)
+(use-package lua-mode)
 ;; Emacs
 (require 'lib-compile)
 (require 'lib-dired)
 
 ;; Extra packages which don't require lots of configuration
-;; (use-package rainbow-mode)
-;; (use-package lua-mode)
+(use-package rainbow-mode)
 (use-package rainbow-delimiters :init (rainbow-delimiters-mode 1))
 (use-package sudo-edit :bind ("s-e" . sudo-edit))
 (use-package which-key :init (which-key-mode 1))
@@ -53,24 +52,27 @@
 ;; Programming
 (use-package flycheck)
 
-;; (setq python-shell-interpreter "/home/max/.local/bin/ipython")
+;; (setq auto-revert-check-vc-info t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(poet-dark))
+ '(custom-enabled-themes '(doom-miramare))
  '(custom-safe-themes
-   '("afde6368be6868e8e3dd53fad1ac51223d5484f9e6836496e7987802c9a9663d"
+   '("38b43b865e2be4fe80a53d945218318d0075c5e01ddf102e9bec6e90d57e2134"
+     "1f292969fc19ba45fbc6542ed54e58ab5ad3dbe41b70d8cb2d1f85c22d07e518"
+     "7ec8fd456c0c117c99e3a3b16aaf09ed3fb91879f6601b1ea0eeaee9c6def5d9"
+     "e1df746a4fa8ab920aafb96c39cd0ab0f1bac558eff34532f453bd32c687b9d6"
+     "afde6368be6868e8e3dd53fad1ac51223d5484f9e6836496e7987802c9a9663d"
      default))
  '(package-selected-packages
-   '(autothemer company-box dockerfile-mode doom-themes ef-themes
-		eldoc-box elpy f flycheck fontaine go-mode ht lv magit
-		markdown-mode mood-line olivetti org-modern
-		org-roam-ui ox-hugo poet-theme py-autopep8 pydoc
-		python-black rainbow-delimiters recompile-on-save
-		smart-compile spinner sudo-edit yaml-mode yaml-pro)))
+   '(company-box doom-themes eldoc-box flycheck lua-mode magit mood-line
+		 olivetti org-modern org-roam-ui ox-hugo poet-theme
+		 pydoc python-black pyvenv rainbow-delimiters
+		 rainbow-mode recompile-on-save smart-compile
+		 sudo-edit yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
