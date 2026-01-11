@@ -3,6 +3,8 @@
 ;; (setq org-startup-with-inline-images nil)
 (setq org-src-window-setup 'current-window)
 (setq org-hide-emphasis-markers t)
+;; Disable subscript functionality
+(setq org-use-sub-superscripts nil)
 
 (use-package org-modern
   :config

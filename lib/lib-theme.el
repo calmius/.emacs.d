@@ -1,5 +1,5 @@
 (set-frame-parameter nil 'internal-border-width 5)
-(set-frame-parameter nil 'alpha-background 78)
+(set-frame-parameter nil 'alpha-background 85)
 ;; Hide title bar in DE
 (set-frame-parameter nil 'undecorated t)
 (set-fringe-mode 0)

@@ -56,7 +56,7 @@
 		 olivetti org-modern org-roam-ui ox-hugo poet-theme
 		 pydoc python-black pyvenv rainbow-delimiters
 		 rainbow-mode recompile-on-save smart-compile
-		 sudo-edit yaml-mode)))
+		 sudo-edit terraform-mode yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

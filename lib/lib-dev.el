@@ -1,4 +1,4 @@
-(require 'lib-go)
+;; (require 'lib-go)
 (require 'lib-py)
 
 (use-package flycheck)
@@ -15,11 +15,6 @@
   :config)
 
 (use-package terraform-mode
-  ;; if using straight
-  ;; :straight t
-
-  ;; if using package.el
-  ;; :ensure t
   :custom (terraform-indent-level 4)
   :config
   (defun my-terraform-mode-init ()
