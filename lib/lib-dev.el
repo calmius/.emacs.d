@@ -1,5 +1,6 @@
 ;; (require 'lib-go)
 (require 'lib-py)
+(require 'lib-eglot)
 
 (use-package flycheck)
 
@@ -7,11 +8,13 @@
 
 (use-package lua-mode)
 
+(use-package dockerfile-mode)
+
 (use-package yaml-mode
   :mode
   ("\\.yaml\\'" "\\.yml\\'")
-  :custom-face
-  (font-lock-variable-name-face ((t (:foreground "#cba6f7"))))
+  ;; :custom-face
+  ;; (font-lock-variable-name-face ((t (:foreground "#"))))
   :config)
 
 (use-package terraform-mode

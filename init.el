@@ -43,16 +43,19 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(doom-tomorrow-night))
+ '(custom-enabled-themes '(poet-dark))
  '(custom-safe-themes
-   '("38b43b865e2be4fe80a53d945218318d0075c5e01ddf102e9bec6e90d57e2134"
+   '("aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
+     "38b43b865e2be4fe80a53d945218318d0075c5e01ddf102e9bec6e90d57e2134"
      "1f292969fc19ba45fbc6542ed54e58ab5ad3dbe41b70d8cb2d1f85c22d07e518"
      "7ec8fd456c0c117c99e3a3b16aaf09ed3fb91879f6601b1ea0eeaee9c6def5d9"
      "e1df746a4fa8ab920aafb96c39cd0ab0f1bac558eff34532f453bd32c687b9d6"
      "afde6368be6868e8e3dd53fad1ac51223d5484f9e6836496e7987802c9a9663d"
      default))
  '(package-selected-packages
-   '(company-box doom-themes eldoc-box flycheck lua-mode magit mood-line
+   '(auto-themer autothemer company-box docker-mode dockerfile-mode
+		 doom-themes eldoc-box flycheck gitlab-ci-mode
+		 gitlab-ci-mode-flycheck lua-mode magit mood-line
 		 olivetti org-modern org-roam-ui ox-hugo poet-theme
 		 pydoc python-black pyvenv rainbow-delimiters
 		 rainbow-mode recompile-on-save smart-compile

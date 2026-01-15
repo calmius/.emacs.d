@@ -1,5 +1,5 @@
 (set-frame-parameter nil 'internal-border-width 5)
-(set-frame-parameter nil 'alpha-background 85)
+(set-frame-parameter nil 'alpha-background 80)
 ;; Hide title bar in DE
 (set-frame-parameter nil 'undecorated t)
 (set-fringe-mode 0)
@@ -8,9 +8,10 @@
 (add-hook 'prog-mode 'display-fill-column-indicator-mode)
 (add-hook 'go-mode 'display-fill-column-indicator-mode)
 
+;; Themes
+(use-package autothemer)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
-;; Themes
 (use-package doom-themes)
 (use-package poet-theme)
 (set-face-attribute 'default nil :family "Myna" :height 150)
