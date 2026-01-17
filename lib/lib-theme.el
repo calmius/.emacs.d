@@ -1,7 +1,7 @@
 (set-frame-parameter nil 'internal-border-width 5)
-(set-frame-parameter nil 'alpha-background 80)
+(set-frame-parameter nil 'alpha-background 85)
 ;; Hide title bar in DE
-(set-frame-parameter nil 'undecorated t)
+(add-to-list 'default-frame-alist '(undecorated . t))
 (set-fringe-mode 0)
 (blink-cursor-mode 0)
 ;; Column indicator
@@ -35,4 +35,3 @@
  '(org-document-title ((t (:height 1.3)))))
 
 (provide 'lib-theme)
-

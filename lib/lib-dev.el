@@ -1,6 +1,7 @@
 ;; (require 'lib-go)
 (require 'lib-py)
 (require 'lib-eglot)
+(require 'lib-company)
 
 (use-package flycheck)
 

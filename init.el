@@ -17,6 +17,8 @@
 (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
 
 ;; View
+;; (require 'a)
+(require 'lib-icons)
 (require 'lib-modeline)
 (require 'lib-theme)
 ;; Controls
@@ -28,16 +30,16 @@
 ;; Programming
 (require 'lib-dev)
 ;; Other
+(require 'lib-completion)
+(require 'lib-consult)
 (require 'lib-compile)
 (require 'lib-dired)
-
 
 ;; Extra packages which don't require lots of configuration
 (use-package rainbow-mode)
 (use-package rainbow-delimiters :init (rainbow-delimiters-mode 1))
 (use-package sudo-edit :bind ("s-e" . sudo-edit))
 (use-package which-key :init (which-key-mode 1))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -53,13 +55,15 @@
      "afde6368be6868e8e3dd53fad1ac51223d5484f9e6836496e7987802c9a9663d"
      default))
  '(package-selected-packages
-   '(auto-themer autothemer company-box docker-mode dockerfile-mode
-		 doom-themes eldoc-box flycheck gitlab-ci-mode
-		 gitlab-ci-mode-flycheck lua-mode magit mood-line
-		 olivetti org-modern org-roam-ui ox-hugo poet-theme
-		 pydoc python-black pyvenv rainbow-delimiters
-		 rainbow-mode recompile-on-save smart-compile
-		 sudo-edit terraform-mode yaml-mode)))
+   '(all-the-icons auto-themer autothemer company-box consult docker-mode
+		   dockerfile-mode doom-themes eldoc-box flycheck
+		   gitlab-ci-mode gitlab-ci-mode-flycheck lua-mode
+		   magit marginalia mood-line nerd-icons-completion
+		   nerd-icons-dired olivetti orderless org-modern
+		   org-roam-ui ox-hugo poet-theme pydoc python-black
+		   pyvenv rainbow-delimiters rainbow-mode
+		   recompile-on-save smart-compile sudo-edit
+		   terraform-mode vertico yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

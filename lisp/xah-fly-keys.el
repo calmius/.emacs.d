@@ -3769,7 +3769,7 @@ Version: 2024-04-22"
        ("0" . xah-pop-local-mark-ring)
 
        ("a" . execute-extended-command)
-       ("b" . isearch-forward)
+       ("b" . consult-line)
        ("c" . previous-line)
        ("d" . xah-beginning-of-line-or-block)
        ("e" . xah-smart-delete)
