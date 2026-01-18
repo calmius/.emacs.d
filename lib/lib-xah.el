@@ -13,7 +13,6 @@
 (define-key xah-fly-leader-key-map (kbd "u g") 'rgrep)
 (define-key xah-fly-leader-key-map (kbd "n f") 'consult-find)
 
-
 ;;; Org roam bindings   
 (define-key xah-fly-leader-key-map (kbd "' t") 'org-roam-buffer-toggle)
 (define-key xah-fly-leader-key-map (kbd "' f") 'org-roam-node-find)

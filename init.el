@@ -17,6 +17,7 @@
 (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
 
 ;; View
+(require 'lib-dashboard)
 (require 'lib-icons)
 (require 'lib-modeline)
 (require 'lib-theme)
@@ -46,7 +47,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(poet-dark))
+ '(custom-enabled-themes '(modus-operandi-tinted))
  '(custom-safe-themes
    '("aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
      "38b43b865e2be4fe80a53d945218318d0075c5e01ddf102e9bec6e90d57e2134"
@@ -56,11 +57,11 @@
      "afde6368be6868e8e3dd53fad1ac51223d5484f9e6836496e7987802c9a9663d"
      default))
  '(package-selected-packages
-   '(all-the-icons auto-themer autothemer company-box consult docker-mode
-		   dockerfile-mode doom-modeline doom-themes eldoc-box
-		   flycheck gitlab-ci-mode gitlab-ci-mode-flycheck
-		   lua-mode magit marginalia mood-line
-		   nerd-icons-completion nerd-icons-dired
+   '(all-the-icons auto-themer autothemer company-box consult dashboard
+		   docker-mode dockerfile-mode doom-modeline
+		   doom-themes eldoc-box flycheck gitlab-ci-mode
+		   gitlab-ci-mode-flycheck lua-mode magit marginalia
+		   mood-line nerd-icons-completion nerd-icons-dired
 		   nerd-icons-ibuffer olivetti orderless org-modern
 		   org-roam-ui ox-hugo poet-theme pydoc python-black
 		   pyvenv rainbow-delimiters rainbow-mode recall
