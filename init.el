@@ -56,11 +56,12 @@
      default))
  '(package-selected-packages
    '(all-the-icons auto-themer autothemer company-box consult docker-mode
-		   dockerfile-mode doom-themes eldoc-box flycheck
-		   gitlab-ci-mode gitlab-ci-mode-flycheck lua-mode
-		   magit marginalia mood-line nerd-icons-completion
-		   nerd-icons-dired olivetti orderless org-modern
-		   org-roam-ui ox-hugo poet-theme pydoc python-black
+		   dockerfile-mode doom-modeline doom-themes eldoc-box
+		   flycheck gitlab-ci-mode gitlab-ci-mode-flycheck
+		   lua-mode magit marginalia mood-line
+		   nerd-icons-completion nerd-icons-dired
+		   nerd-icons-ibuffer olivetti orderless org-modern
+		   org-roam-ui poet-theme pydoc python-black
 		   pyvenv rainbow-delimiters rainbow-mode
 		   recompile-on-save smart-compile sudo-edit
 		   terraform-mode vertico yaml-mode)))
