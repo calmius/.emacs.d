@@ -13,6 +13,7 @@
 (use-package yaml-mode
   :mode
   ("\\.yaml\\'" "\\.yml\\'")
+  :hook (yaml-mode . company-mode)  ;; Enable company-mode explicitly
   ;; :custom-face
   ;; (font-lock-variable-name-face ((t (:foreground "#"))))
   :config)

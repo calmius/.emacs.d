@@ -47,7 +47,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(modus-operandi-tinted))
+ '(custom-enabled-themes '(doom-tomorrow-night))
  '(custom-safe-themes
    '("aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
      "38b43b865e2be4fe80a53d945218318d0075c5e01ddf102e9bec6e90d57e2134"
