@@ -11,8 +11,8 @@
 (define-key xah-fly-leader-key-map (kbd "y r") 'smart-compile)
 (define-key xah-fly-leader-key-map (kbd "y p") 'kmacro-end-macro)
 (define-key xah-fly-leader-key-map (kbd "u g") 'rgrep)
-(define-key xah-fly-leader-key-map (kbd "u m") 'consult-find)
-(define-key xah-fly-leader-key-map (kbd "k") 'consult-isearch-history)
+(define-key xah-fly-leader-key-map (kbd "n f") 'consult-find)
+
 
 ;;; Org roam bindings   
 (define-key xah-fly-leader-key-map (kbd "' t") 'org-roam-buffer-toggle)
