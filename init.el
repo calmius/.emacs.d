@@ -17,7 +17,6 @@
 (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
 
 ;; View
-;; (require 'a)
 (require 'lib-icons)
 (require 'lib-modeline)
 (require 'lib-theme)
@@ -30,6 +29,7 @@
 ;; Programming
 (require 'lib-dev)
 ;; Other
+(require 'lib-recall)
 (require 'lib-completion)
 (require 'lib-consult)
 (require 'lib-compile)
@@ -40,6 +40,7 @@
 (use-package rainbow-delimiters :init (rainbow-delimiters-mode 1))
 (use-package sudo-edit :bind ("s-e" . sudo-edit))
 (use-package which-key :init (which-key-mode 1))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -61,8 +62,8 @@
 		   lua-mode magit marginalia mood-line
 		   nerd-icons-completion nerd-icons-dired
 		   nerd-icons-ibuffer olivetti orderless org-modern
-		   org-roam-ui poet-theme pydoc python-black
-		   pyvenv rainbow-delimiters rainbow-mode
+		   org-roam-ui ox-hugo poet-theme pydoc python-black
+		   pyvenv rainbow-delimiters rainbow-mode recall
 		   recompile-on-save smart-compile sudo-edit
 		   terraform-mode vertico yaml-mode)))
 (custom-set-faces

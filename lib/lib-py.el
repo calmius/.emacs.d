@@ -1,4 +1,3 @@
-(use-package pydoc)
 (use-package python-black
   :demand t
   :after python

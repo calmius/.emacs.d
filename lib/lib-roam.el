@@ -7,5 +7,4 @@
 
 (use-package org-roam-ui)
 
-
 (provide 'lib-roam)

@@ -9,3 +9,5 @@
 ;; (recall-completing-read-fn #'recall-consult-completing-read)
 ;; Enable process surveillance
 (recall-mode +1))
+
+(provide 'lib-recall)
