@@ -37,4 +37,23 @@
     )
   (add-hook 'terraform-mode-hook 'my-terraform-mode-init))
 
+(use-package dtrt-indent
+  :ensure t
+  :commands (dtrt-indent-global-mode
+             dtrt-indent-mode
+             dtrt-indent-adapt
+             dtrt-indent-undo
+             dtrt-indent-diagnosis
+             dtrt-indent-highlight)
+  :config
+  (dtrt-indent-global-mode))
+
+(use-package indent-bars
+  :hook ((yaml-mode . indent-bars-mode)
+         (yaml-ts-mode . indent-bars-mode)
+         (python-mode . indent-bars-mode)
+         (python-ts-mode . indent-bars-mode))
+  :custom
+  (indent-bars-prefer-character t))
+
 (provide 'lib-dev)

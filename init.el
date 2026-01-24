@@ -50,7 +50,8 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(doom-flatwhite))
  '(custom-safe-themes
-   '("a9eeab09d61fef94084a95f82557e147d9630fbbb82a837f971f83e66e21e5ad"
+   '("0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1"
+     "a9eeab09d61fef94084a95f82557e147d9630fbbb82a837f971f83e66e21e5ad"
      "7771c8496c10162220af0ca7b7e61459cb42d18c35ce272a63461c0fc1336015"
      "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
      "38b43b865e2be4fe80a53d945218318d0075c5e01ddf102e9bec6e90d57e2134"

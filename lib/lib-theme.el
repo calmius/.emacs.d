@@ -25,7 +25,6 @@
 	       (olivetti-mode 1))))
 (olivetti-global-mode)
 
-
 ;; Org mode settings
 (custom-set-faces
  '(org-level-1 ((t (:height 1.2))))
