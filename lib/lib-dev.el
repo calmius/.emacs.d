@@ -3,12 +3,17 @@
 (require 'lib-eglot)
 (require 'lib-company)
 
+;; No config
 (use-package flycheck)
 (use-package magit)
-
-;; Modes
 (use-package lua-mode)
 (use-package dockerfile-mode)
+
+(use-package nginx-mode
+  :mode
+  ("\\.conf\\'" "\\.cfg\\'")
+  :hook (nginx-mode . company-mode)  ;; Enable company-mode explicitly
+)
 
 (use-package yaml-mode
   :mode
@@ -16,7 +21,12 @@
   :hook (yaml-mode . company-mode)  ;; Enable company-mode explicitly
   ;; :custom-face
   ;; (font-lock-variable-name-face ((t (:foreground "#"))))
-  :config)
+  )
+
+(use-package ansible)
+(add-hook 'yaml-mode-hook '(lambda () (ansible-mode 1)))
+(use-package ansible-doc)
+(add-hook 'yaml-mode-hook #'ansible-doc-mode)
 
 (use-package terraform-mode
   :custom (terraform-indent-level 4)

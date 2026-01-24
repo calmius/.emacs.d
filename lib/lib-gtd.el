@@ -1,7 +1,16 @@
 (setq org-directory "~/Documents/org/managment")
-(setq org-agenda-files (list "inbox.org" "agenda.org" "projects.org" "someday.org"))
+(setq org-agenda-files (list "inbox.org" "agenda.org" "projects.org" "someday.org" "done.org"))
 (define-key global-map (kbd "C-c c") 'org-capture)
 (define-key global-map (kbd "C-c a") 'org-agenda)
+
+;; Add key words
+(setq org-todo-keywords
+      '((sequence "PROJ(p)" "TODO(t)" "SOMEDAY" "NEXT(n)" "HOLD(h)" "|" "DONE(d)" "PROJ(p)")))
+(setq org-todo-keyword-faces
+      '(("NEXT" :background "#5C999B" :weight bold)
+        ("HOLD" :background "#c59031" :weight bold)
+        ("SOMEDAY" :background "#05485f" :weight bold)
+        ("PROJ" :background "#B190f0" :weight bold)))
 
 ;; Capture templates
 (setq org-capture-templates
@@ -21,21 +30,14 @@
 
 ;; Refile from inbox to projects
 ;; (setq org-refile-targets
-      ;; '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-        ;; ("agenda.org" :regexp . "\\(?:Future\\)")))
+;; '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+;; ("agenda.org" :regexp . "\\(?:Future\\)")))
 (setq org-refile-targets '((org-agenda-files :maxlevel . 2)))
 
 
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
 
-;; Add key words
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "SOMEDAY" "NEXT(n)" "HOLD(h)" "|" "DONE(d)")))
-(setq org-todo-keyword-faces
-      '(("NEXT" :background "#5C999B" :weight bold)
-        ("HOLD" :background "#c59031" :weight bold)
-        ("SOMEDAY" :background "#05485f" :weight bold)))
 
 ;; Add timestamp when changed to NEXT
 (defun log-todo-next-creation-date (&rest ignore)
@@ -85,43 +87,5 @@ See also `org-save-all-org-buffers'"
         (todo   . " ")
         (tags   . " %i %-12:c")
         (search . " %i %-12:c")))
-
-;; Customi agenda view
-(setq org-agenda-custom-commands
-      '(("g" "Get Things Done (GTD)"
-         ;; ((agenda ""
-         ;; ((org-agenda-skip-function
-         ;; '(org-agenda-skip-entry-if 'deadline))
-         ;; (org-deadline-warning-days 0)))
-         ((agenda ""
-                  ((org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'deadline))
-                   (org-deadline-warning-days 0)
-                   (org-agenda-time-grid '((daily today require-timed)
-                                           (800 1200 1600 2000 2400)
-                                           "......" "----------------"))))
-          ;; All NEXT tasks
-          (todo "NEXT"
-                ((org-agenda-skip-function
-                  '(org-agenda-skip-entry-if 'deadline))
-                 (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                 (org-agenda-overriding-header "\nTasks\n")))
-          ;; All NEXT tasks with deadlines
-          (agenda nil
-                  ((org-agenda-entry-types '(:deadline))
-                   (org-agenda-format-date "")
-                   (org-deadline-warning-days 7)
-                   (org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
-                   (org-agenda-overriding-header "\nDeadlines")))
-          ;; All scheduled 
-          (tags "SCHEDULED>=\"<today>\"&SCHEDULED<=\"<+7d>\""
-                ((org-agenda-overriding-header "Scheduled for the Upcoming Week")))
-          ;; All from inbox
-          (tags-todo "inbox"
-                     ((org-agenda-prefix-format "  %?-12t% s")
-                      (org-agenda-overriding-header "\nInbox\n")))
-          (tags "CLOSED>=\"<today>\""
-                ((org-agenda-overriding-header "\nCompleted today\n")))))))
 
 (provide 'lib-gtd)

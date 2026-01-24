@@ -8,7 +8,16 @@
 
 (use-package org-modern
   :config
-  (add-hook 'org-mode-hook (lambda () (org-modern-mode 1))))
+  (setq org-modern-todo-faces
+        '(("NEXT" :background "#5C999B" :weight bold :foreground "white")
+          ("HOLD" :background "#c59031" :weight bold :foreground "white")
+          ("SOMEDAY" :background "#05485f" :weight bold :foreground "white")
+          ("PROJ" :background "#B190f0" :weight bold :foreground "white")))
+  (add-hook 'org-mode-hook (lambda () (org-modern-mode 1)))
+  :custom (org-modern-star '("◉" "○" "◈" "◇" "✳")))
+
+;; Inverit tag from top level header
+(setq org-use-tag-inheritance t)
 
 (setq
  ;; Edit settings
