@@ -18,15 +18,18 @@
 (use-package yaml-mode
   :mode
   ("\\.yaml\\'" "\\.yml\\'")
-  :hook (yaml-mode . company-mode)  ;; Enable company-mode explicitly
-  ;; :custom-face
-  ;; (font-lock-variable-name-face ((t (:foreground "#"))))
-  )
+  :hook (yaml-mode . (lambda ()
+                       (company-mode 1)
+                       (whitespace-mode 1))))
 
 (use-package ansible)
 (add-hook 'yaml-mode-hook '(lambda () (ansible-mode 1)))
 (use-package ansible-doc)
 (add-hook 'yaml-mode-hook #'ansible-doc-mode)
+(set-face-attribute 'ansible-task-label-face nil
+                    :foreground nil     ;; inherit theme color
+                    :weight 'normal)
+
 
 (use-package terraform-mode
   :custom (terraform-indent-level 4)
