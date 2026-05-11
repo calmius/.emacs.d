@@ -48,9 +48,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(doom-flatwhite))
+ '(custom-enabled-themes '(doom-rouge))
  '(custom-safe-themes
-   '("0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1"
+   '("d12b1d9b0498280f60e5ec92e5ecec4b5db5370d05e787bc7cc49eae6fb07bc0"
+     "93011fe35859772a6766df8a4be817add8bfe105246173206478a0706f88b33d"
+     "e9aa348abd3713a75f2c5ba279aa581b1c6ec187ebefbfa33373083ff8004c7c"
+     "0d2c5679b6d087686dcfd4d7e57ed8e8aedcccc7f1a478cd69704c02e4ee36fe"
+     "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1"
      "a9eeab09d61fef94084a95f82557e147d9630fbbb82a837f971f83e66e21e5ad"
      "7771c8496c10162220af0ca7b7e61459cb42d18c35ce272a63461c0fc1336015"
      "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
@@ -69,13 +73,14 @@
    '(all-the-icons ansible ansible-doc auctex auto-themer autothemer
 		   company-box consult dashboard docker-mode
 		   dockerfile-mode doom-modeline doom-themes eldoc-box
-		   flycheck gitlab-ci-mode gitlab-ci-mode-flycheck
-		   lua-mode magit marginalia mood-line
-		   nerd-icons-completion nerd-icons-dired
-		   nerd-icons-ibuffer nginx-mode olivetti orderless
-		   org-modern org-roam-ui ox-hugo poet-theme pydoc
-		   python-black pyvenv rainbow-delimiters rainbow-mode
-		   recall recompile-on-save smart-compile sudo-edit
+		   fireplace flycheck gitlab-ci-mode
+		   gitlab-ci-mode-flycheck gptel lua-mode magit
+		   marginalia mood-line nerd-icons-completion
+		   nerd-icons-dired nerd-icons-ibuffer nginx-mode
+		   olivetti orderless org-modern org-roam-ui ox-hugo
+		   poet-theme pydoc python-black pyvenv
+		   rainbow-delimiters rainbow-mode recall
+		   recompile-on-save smart-compile sudo-edit
 		   terraform-mode vertico yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

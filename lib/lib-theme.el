@@ -1,5 +1,5 @@
 (set-frame-parameter nil 'internal-border-width 5)
-(set-frame-parameter nil 'alpha-background 85)
+(set-frame-parameter nil 'alpha-background 93)
 ;; Hide title bar in DE
 (add-to-list 'default-frame-alist '(undecorated . t))
 (set-fringe-mode 0)
@@ -14,9 +14,6 @@
 
 (use-package doom-themes)
 (use-package poet-theme)
-(set-face-attribute 'default nil :family "Myna" :height 150)
-(set-face-attribute 'fixed-pitch nil :family "Myna")
-(set-face-attribute 'variable-pitch nil :family "Myna")
 
 ;; Olivetti mode
 (use-package olivetti :custom (olivetti-body-width 120))
@@ -32,5 +29,30 @@
  '(org-level-3 ((t (:height 1.1))))
  '(org-level-4 ((t (:height 1.05))))
  '(org-document-title ((t (:height 1.3)))))
+
+
+(defvar my/ui-font-height 130)
+(defvar my/buffer-font-scale 1.5)
+
+(set-face-attribute 'default nil :family "Myna" :height my/ui-font-height)
+(set-face-attribute 'fixed-pitch nil :family "Myna")
+(set-face-attribute 'variable-pitch nil :family "Myna")
+
+(defun my/big-buffer-font ()
+  (unless (minibufferp)
+    (face-remap-add-relative 'default :height my/buffer-font-scale)))
+
+(add-hook 'after-change-major-mode-hook #'my/big-buffer-font)
+
+;; modeline
+(defun my/apply-ui ()
+  (set-face-attribute 'mode-line nil :height 1.0)
+  (set-face-attribute 'mode-line-inactive nil :height 1.0))
+
+(my/apply-ui)
+
+(advice-add 'load-theme :after
+            (lambda (&rest _) (my/apply-ui)))
+
 
 (provide 'lib-theme)

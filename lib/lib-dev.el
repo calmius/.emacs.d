@@ -29,7 +29,9 @@
 (set-face-attribute 'ansible-task-label-face nil
                     :foreground nil     ;; inherit theme color
                     :weight 'normal)
-
+;; Disable ANSI escape codes (^[) in ansbile doc buffer
+(setenv "ANSIBLE_NOCOLOR" "1")
+(setenv "ANSIBLE_FORCE_COLOR" "0")
 
 (use-package terraform-mode
   :custom (terraform-indent-level 4)
