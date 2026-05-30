@@ -1,5 +1,5 @@
 (setq org-directory "~/Documents/org/managment")
-(setq org-agenda-files (list "inbox.org" "agenda.org" "projects.org" "someday.org" "done.org"))
+(setq org-agenda-files (list "inbox.org" "agenda.org" "projects.org" "someday.org"))
 (define-key global-map (kbd "C-c c") 'org-capture)
 (define-key global-map (kbd "C-c a") 'org-agenda)
 
@@ -78,7 +78,6 @@ See also `org-save-all-org-buffers'"
 (add-hook 'org-capture-mode-hook 'delete-other-windows)
 (add-hook 'org-agenda-mode-hook 'delete-other-windows)
 
-
 ;; Agenda view
 ;; Hide tag and filename in aganda view
 (setq org-agenda-hide-tags-regexp ".")
@@ -87,5 +86,23 @@ See also `org-save-all-org-buffers'"
         (todo   . " ")
         (tags   . " %i %-12:c")
         (search . " %i %-12:c")))
+
+(setq org-agenda-custom-commands
+      '(("w" . "Weeks")
+        ("wc" "Current week"
+         agenda ""
+         ((org-agenda-span 7)
+          (org-agenda-start-on-weekday 1)))
+
+        ("wn" "Next week"
+         agenda ""
+         ((org-agenda-span 7)
+          (org-agenda-start-on-weekday 1)
+          (org-agenda-start-day "+7d")))
+
+        ("wt" "Two weeks"
+         agenda ""
+         ((org-agenda-span 14)
+          (org-agenda-start-on-weekday 1)))))
 
 (provide 'lib-gtd)

@@ -47,4 +47,36 @@
 
 (global-org-modern-mode)
 
+;; Notification
+;; Org agenda notifications
+(require 'appt)
+(require 'notifications)
+
+(setq appt-message-warning-time 30) ;; notify 30 min before
+(setq appt-display-interval 5)      ;; repeat every 5 min
+(setq appt-display-mode-line t)
+
+(defun my/org-agenda-refresh-appt ()
+  "Refresh appointments from org agenda."
+  (interactive)
+  (setq appt-time-msg-list nil)
+  (org-agenda-to-appt))
+
+(defun my/appt-notification (min-to-app new-time msg)
+  "Show desktop notification for appointments."
+  (notifications-notify
+   :title (format "Org reminder: in %s min" min-to-app)
+   :body msg
+   :urgency 'normal))
+
+(setq appt-disp-window-function #'my/appt-notification)
+
+(appt-activate 1)
+
+;; Load org agenda tasks into appt on startup
+(my/org-agenda-refresh-appt)
+
+;; Refresh every 10 minutes
+(run-at-time nil 600 #'my/org-agenda-refresh-appt)
+
 (provide 'lib-org)
