@@ -3,8 +3,13 @@
 ;; (setq org-startup-with-inline-images nil)
 (setq org-src-window-setup 'current-window)
 (setq org-hide-emphasis-markers t)
+
 ;; Disable subscript functionality
 (setq org-use-sub-superscripts nil)
+
+;; resize inline images in org file with:
+;; #+ATTR_ORG: :width n
+(setq org-image-actual-width nil)
 
 (use-package org-modern
   :config

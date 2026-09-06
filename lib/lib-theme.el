@@ -1,5 +1,5 @@
 (set-frame-parameter nil 'internal-border-width 5)
-(set-frame-parameter nil 'alpha-background 90)
+(set-frame-parameter nil 'alpha-background 93)
 ;; Hide title bar in DE
 (add-to-list 'default-frame-alist '(undecorated . t))
 (set-fringe-mode 0)
@@ -12,11 +12,46 @@
 (use-package autothemer)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
+(use-package modus-themes)
 (use-package doom-themes)
+
+(require 'cus-theme)
+
+(with-eval-after-load "doom-flatwhite-theme"
+  (custom-theme-set-faces
+   'doom-flatwhite
+
+   ;; purple / pink
+   '(font-lock-keyword-face
+     ((t (:foreground "#8a3f70"
+          :background "#f4d7e8"))))
+
+   ;; blue
+   '(font-lock-variable-name-face
+     ((t (:foreground "#3f668a"
+          :background "#d9e5f0"))))
+
+   ;; green
+   '(font-lock-string-face
+     ((t (:foreground "#56723f"
+          :background "#e1ead8"))))))
+
+
+
 (use-package poet-theme)
-(set-face-attribute 'default nil :family "Myna" :height 150)
-(set-face-attribute 'fixed-pitch nil :family "Myna")
-(set-face-attribute 'variable-pitch nil :family "Myna")
+
+;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 150)
+;; (set-face-attribute 'fixed-pitch nil :family "Ubuntu Mono")
+;; (set-face-attribute 'variable-pitch nil :family "Ubuntu Mono")
+
+(set-face-attribute 'default nil
+                    :family "Comic Shanns Mono"
+                    :height 150
+                    :weight 'normal)
+
+(set-face-attribute 'fixed-pitch nil
+                    :family "Comic Shanns Mono"
+                    :weight 'normal)
 
 ;; Olivetti mode
 (use-package olivetti :custom (olivetti-body-width 120))

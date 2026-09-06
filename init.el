@@ -48,40 +48,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(doom-rouge))
+ '(custom-enabled-themes '(doom-tomorrow-night))
  '(custom-safe-themes
-   '("d12b1d9b0498280f60e5ec92e5ecec4b5db5370d05e787bc7cc49eae6fb07bc0"
-     "93011fe35859772a6766df8a4be817add8bfe105246173206478a0706f88b33d"
-     "e9aa348abd3713a75f2c5ba279aa581b1c6ec187ebefbfa33373083ff8004c7c"
-     "0d2c5679b6d087686dcfd4d7e57ed8e8aedcccc7f1a478cd69704c02e4ee36fe"
-     "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1"
-     "a9eeab09d61fef94084a95f82557e147d9630fbbb82a837f971f83e66e21e5ad"
-     "7771c8496c10162220af0ca7b7e61459cb42d18c35ce272a63461c0fc1336015"
-     "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
-     "38b43b865e2be4fe80a53d945218318d0075c5e01ddf102e9bec6e90d57e2134"
-     "1f292969fc19ba45fbc6542ed54e58ab5ad3dbe41b70d8cb2d1f85c22d07e518"
-     "7ec8fd456c0c117c99e3a3b16aaf09ed3fb91879f6601b1ea0eeaee9c6def5d9"
-     "e1df746a4fa8ab920aafb96c39cd0ab0f1bac558eff34532f453bd32c687b9d6"
-     "afde6368be6868e8e3dd53fad1ac51223d5484f9e6836496e7987802c9a9663d"
-     default))
- '(org-agenda-files
-   '("/home/max/Documents/org/managment/inbox.org"
-     "/home/max/Documents/org/managment/agenda.org"
-     "/home/max/Documents/org/managment/projects.org"
-     "/home/max/Documents/org/managment/someday.org"))
+   '("7771c8496c10162220af0ca7b7e61459cb42d18c35ce272a63461c0fc1336015" default))
+ '(org-agenda-files nil)
  '(package-selected-packages
-   '(all-the-icons ansible ansible-doc auctex auto-themer autothemer
-		   company-box consult dashboard docker-mode
-		   dockerfile-mode doom-modeline doom-themes eldoc-box
-		   fireplace flycheck gitlab-ci-mode
-		   gitlab-ci-mode-flycheck gptel lua-mode magit
-		   marginalia mood-line nerd-icons-completion
-		   nerd-icons-dired nerd-icons-ibuffer nginx-mode
-		   olivetti orderless org-modern org-roam-ui ox-hugo
-		   poet-theme pydoc python-black pyvenv
-		   rainbow-delimiters rainbow-mode recall
-		   recompile-on-save smart-compile sudo-edit
-		   terraform-mode vertico yaml-mode)))
+   '(go-mode modus-themes which-key sudo-edit rainbow-delimiters rainbow-mode smart-compile recompile-on-save consult marginalia orderless vertico recall auctex indent-bars dtrt-indent terraform-mode ansible-doc ansible yaml-mode nginx-mode dockerfile-mode lua-mode magit flycheck org-roam-ui pyvenv python-black poet-theme org-roam org-modern olivetti nerd-icons-ibuffer nerd-icons-dired nerd-icons-completion eldoc-box doom-themes doom-modeline dashboard company-box autothemer)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
